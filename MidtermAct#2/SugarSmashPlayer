@@ -1,1 +1,71 @@
+import java.util.Scanner;
 
+class SugarSmashPlayer {
+    private int playerId;
+    private String screenName;
+    private int[] highScores;
+   
+   Scanner sc = new Scanner(System.in);
+   
+   public SugarSmashPlayer() {
+      playerId = 0;
+      screenName = " ";
+      highScores = new int[10];
+      
+   }
+   
+    public SugarSmashPlayer(int playerId, String screenName, int highScores) {
+        this.playerId = playerId;
+        this.screenName = screenName;
+        this.highScores = new int[10];
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public int getScore(int level) {
+        if (level >= 1 && level <= 10) {
+            return highScores[level - 1]; 
+        } else {
+            System.out.println("Error: Invalid level");
+            return 1; // -1
+        }
+    }
+
+    public void setScore(int level, int score) {
+        if (level >= 1 && level <= 10) {
+            if (level == 1 || score >= 100) {
+                highScores[level - 1] = score;
+            } else {
+                System.out.println("You need at least 100 points to set a score for this level.");
+            }
+        }
+    }
+    public void Display() {
+      System.out.print("Enter the player ID: ");
+        playerId = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter the player screen name: ");
+        screenName = sc.nextLine();
+        
+      System.out.println("Player ID: " + playerId);
+      System.out.println("Player: " + screenName);
+      
+      System.out.println("Setting scores for Player:");
+        for (int i = 1; i <= 10; i++) {
+            System.out.print("Enter the score for level " + i + ": ");
+            int score = sc.nextInt();
+            setScore(i, score);
+        }
+      
+      System.out.println(getPlayerId() + "'s Scores:");
+        for (int i = 1; i <= 10; i++) {
+            System.out.println("Level " + i + ": " + getScore(i));
+        }
+    }
+}
