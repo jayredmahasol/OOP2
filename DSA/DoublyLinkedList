@@ -58,6 +58,7 @@ public class Node {
          count++;
          current = current.next;
       }
+      System.out.println("Number of Element: " + count);
    return count;
 }
    public static boolean isEmpty() {
