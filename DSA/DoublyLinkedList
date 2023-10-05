@@ -1,0 +1,142 @@
+/* 
+NAME: JAYRED DEIL MAHASOL
+      JUSTINE MHARS MUMAR
+ACTIVITY#3: DOUBLY LINKED LIST
+*/     
+      
+import java.util.*;
+public class Node { 
+	int data; 
+	static Node prev; 
+	static Node next; 
+   static Node head;
+   static Node tail;
+   
+   
+	public Node(int data) 
+	{ 
+		this.data = data;
+      this.head = null; 
+      this.tail = null; 
+		this.prev = null; 
+		this.next = null; 
+	}
+   
+   public static void printForward(){ 
+      Node current = head; 
+      while (current != null) { 
+         System.out.print("[" + current.data + "] "); 
+         current = current.next;
+         
+      }
+   }
+   public static void printBackward() {
+      Node current = tail;
+      while (current != null) { 
+         System.out.print("[" + current.data + "] "); 
+         current = current.next; 
+      }
+   }   
+    
+   public static void insertAtBeginning(int data)  { 
+      Node temp = new Node(data); 
+      if(head == null) { 
+         head = temp; 
+         tail = temp; 
+    } 
+    else { 
+        temp.next = head; 
+        head.prev = temp; 
+        head = temp; 
+    } 
+}
+   
+   public static int getLength() {
+      int count = 0;
+      Node current = head;
+      while (current != null) {
+         count++;
+         current = current.next;
+      }
+   return count;
+}
+   public static boolean isEmpty() {
+      return head == null;
+} 
+   
+   public static void main(String[] args) { // Start of the Main Method
+      Scanner sc = new Scanner(System.in);
+      
+      
+      
+      while (true) {
+         System.out.println("\nMenu:");
+         System.out.println("1. Insert an item in the list");
+         System.out.println("2. Initialize the list");
+         System.out.println("3. isTheListEmpty?? ");
+         System.out.println("4. Length of the list");
+         System.out.println("5. Output of the list traversing forward");
+         System.out.println("6. Output of the list traversing backward");
+         System.out.println("7. Search");
+         System.out.println("8. Get the first Element");
+         System.out.println("9. Get the last Element");
+         System.out.println("10. Delete an item from the list");
+         System.out.println("11. Exit");
+         System.out.print("Enter your choice: ");
+         int choice = sc.nextInt();
+   
+      switch(choice) {
+         
+         case 1:
+            System.out.print("Enter a element in the beginning: ");
+            int value = sc.nextInt();
+            insertAtBeginning(value);
+         break;
+         case 2:
+            head = null;
+            tail = null;
+            System.out.println("List initialized.");
+         break;
+         case 3:
+            if (isEmpty()) {
+               System.out.println("The list is empty, Please insert a number.");
+            } else {
+               System.out.println("The list is not empty.");
+         }
+         break;
+         case 4:
+            getLength();
+         break;
+         case 5:
+            printForward();
+         break;
+         case 6:
+            printBackward();
+         break;
+         case 7:
+           
+         break;   
+         case 8:
+            
+         break;
+         case 9:
+         
+         break;
+         case 10:
+         
+         break;
+         case 11:
+            System.out.println("Exiting the program.");
+            sc.close();
+            System.exit(0);
+         default:
+            System.out.println("Invalid choice. Please enter a valid option.");
+         break;
+                    
+            }// end of switch case
+            
+        } // end of while loop
+        
+    }// end of the main method
+   
+} // End of the class
