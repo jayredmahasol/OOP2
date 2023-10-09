@@ -6,54 +6,54 @@ ACTIVITY#3: DOUBLY LINKED LIST
       
 import java.util.*;
 public class Node {
-   static Scanner sc = new Scanner(System.in);
-	static int data;
-	static Node prev; 
-	static Node next; 
-   static Node head;
-   static Node tail;
-   
-   
-	public Node(int data) 
-	{ 
-		this.data = data;
-      this.head = null; 
-      this.tail = null; 
-		this.prev = null; 
-		this.next = null; 
-	}
-   
-   public static void printForward(){ // Method for printing forward
+   int data;
+   Node prev;
+   Node next;
+
+   public Node(int data) {
+      this.data = data;
+      this.prev = null;
+      this.next = null;
+   }
+}
+
+class DoublyLinkedList {
+    private Node head;
+    private Node tail;
+    private int count;
+    
+   // CASE 5
+   public void printForward(){ // Method for printing forward
       Node current = head; 
       while (current != null) { 
          System.out.print("[" + current.data + "] "); 
          current = current.next;
       }
    }
-   
-   public static void printBackward(){ // Method for printing backwards 
+   // CASE 6
+   public void printBackward(){ // Method for printing backwards 
       Node current = tail;
       while (current != null) { 
          System.out.print("[" + current.data + "] "); 
-         current = current.next; 
+         current = current.prev; 
       }
    }   
-    
-   public static void insertAtBeginning(int data){ // Method for inserting a node
-      Node temp = new Node(data); 
-      if(head == null) { 
-         head = temp;
-         tail = temp; 
-      } else { 
-        temp.next = head; 
-        head.prev = temp; 
-        head = temp;
+   // CASE 1
+   public void insert(int item) {
+        Node newNode = new Node(item);
+
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
         }
-    
-   
-}
-   
-   public static int getLength() { // Method for knowing the length of the elements
+        count++;
+    }
+   // CASE 4
+   public int getLength() { // Method for knowing the length of the elements
       int count = 0;
       Node current = head;
       while (current != null) {
@@ -63,23 +63,21 @@ public class Node {
          System.out.println("Number of Element: " + count);
    return count;
 }
-   
-   public static void isEmpty() { // Method for isEmpty
-      if (head == null) {
-               System.out.println("The list is empty, Please insert a number.");
-            } else {
-               System.out.println("The list is not empty.");
-         }
+   // CASE 3
+   public boolean isEmpty() {
+        return count == 0;
    }
-   
-   public static void clear() {
+   // CASE 2
+   public void clear() {
       head = null;
       tail = null;
       System.out.println("List initialized.");      
    
    }
    
-   public static void deletenode(int key) { // Method for deleting a node
+   // CASE 10
+   public void deletenode(int key) { // Method for deleting a node
+      
       Node temp = head;
       Node prev = null;
       if (temp != null && temp.data == key) {
@@ -87,32 +85,46 @@ public class Node {
          return;
       }
       
-      // Find the key to be deleted
       while (temp != null && temp.data != key) { 
          prev = temp;
          temp = temp.next;
       }
-      
-      // If the key is not present
       if (temp == null) return;
       
-      // Remove the node
+      
       prev.next = temp.next;
    }
    
-   public static void getFirstElement() { // Method for getting the first element
+   // CASE 8: GET FIRST ELEMENT
+   public void getFirstElement() { // Method for getting the first element
       Node current = head;
       System.out.println(head.data);
    }
-   
-   public static void getLastElement() { // Method for getting the last element
+   // CASE 9: GET LAST ELEMENT
+   public void getLastElement() { // Method for getting the last element
       Node current = tail;
       System.out.println(tail.data);
    }
    
+   // CASE 7: SEARCH
+   public boolean search(int item) {
+        Node current = head;
+
+        while (current != null) {
+            if (current.data == item) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    
+    
+   
    public static void main(String[] args) { // Start of the Main Method
       Scanner sc = new Scanner(System.in);
       
+      DoublyLinkedList dll = new DoublyLinkedList();
       
       
       while (true) {
@@ -136,36 +148,40 @@ public class Node {
          case 1:
             System.out.print("Enter a element in the beginning: ");
             int value = sc.nextInt();
-            insertAtBeginning(value);
+            dll.insert(value);
          break;
          case 2:
-            clear();
+            dll.clear();
          break;
          case 3:
-            isEmpty();
+            System.out.println("Is the list empty? " + dll.isEmpty());
+            
          break;
          case 4:
-            getLength();
+            dll.getLength();
          break;
          case 5:
-            printForward();
+            dll.printForward();
          break;
          case 6:
-            printBackward();
+            dll.printBackward();
          break;
          case 7:
-           
+           System.out.print("Enter item to search: ");
+                    int searchItem = sc.nextInt();
+                    System.out.println("Item found in the list: " + dll.search(searchItem));
+                    
          break;   
          case 8:
-            getFirstElement();
+            dll.getFirstElement();
          break;
          case 9:
-            getLastElement();
+            dll.getLastElement();
          break;
          case 10:
             System.out.println("Enter number: ");
             value = sc.nextInt();
-            deletenode(value);
+            dll.deletenode(value);
          break;
          case 11:
             System.out.println("Exiting the program.");
