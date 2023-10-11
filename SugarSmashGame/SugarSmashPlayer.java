@@ -1,0 +1,85 @@
+import java.util.Scanner;
+
+class SugarSmashPlayer {
+    private int playerId;
+    private String screenName;
+    private int[] highScores;
+    private final int MAX_LEVELS = 10;
+    private final int MIN_SCORE = 100;
+
+    Scanner console = new Scanner(System.in);
+
+    public SugarSmashPlayer() {
+        playerId = 0;
+        screenName = " ";
+        highScores = new int[MAX_LEVELS];
+    }
+
+    public SugarSmashPlayer(int playerId, String screenName) {
+        this.playerId = playerId;
+        this.screenName = screenName;
+        highScores = new int[MAX_LEVELS];
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public int getScore(int level) {
+        if (level >= 1 && level <= MAX_LEVELS) {
+            return highScores[level - 1];
+        } else {
+            System.out.println("Error: Invalid level");
+            return -1;
+        }
+    }
+
+    public void setScore(int level, int score) {
+        if (level >= 1 && level <= MAX_LEVELS) {
+            if (level == 1 || (score >= MIN_SCORE && allPreviousLevelsUnlocked(level))) {
+                highScores[level - 1] = score;
+            } else {
+                System.out.println("Error: You need at least 100 points to set a score for this level, and all previous levels must be unlocked.");
+            }
+        } else {
+            System.out.println("Error: Invalid level");
+        }
+    }
+
+    private boolean allPreviousLevelsUnlocked(int currentLevel) {
+        for (int i = 1; i < currentLevel; i++) {
+            if (highScores[i - 1] < MIN_SCORE) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void display() {
+        System.out.print("Enter the player ID: ");
+        playerId = console.nextInt();
+        console.nextLine();
+        System.out.print("Enter the player screen name: ");
+        screenName = console.nextLine();
+
+        System.out.println("\n-- PLAYER INFORMATION --");
+        System.out.println("Player ID: " + playerId);
+        System.out.println("Player: " + screenName);
+
+        System.out.println("\n<< Setting scores for Player >>");
+        for (int i = 1; i <= MAX_LEVELS; i++) {
+            System.out.print("Enter the score for level " + i + ": ");
+            int score = console.nextInt();
+            setScore(i, score);
+        }
+
+        System.out.println(getScreenName() + "'s Scores:");
+        for (int i = 1; i <= MAX_LEVELS; i++) {
+            System.out.println("Level " + i + ": " + getScore(i));
+        }
+    }
+}
