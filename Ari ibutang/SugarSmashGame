@@ -1,5 +1,3 @@
-package SugarSmashGame;
-
 import java.util.Scanner;
 
 class SugarSmashPlayer {
@@ -17,7 +15,7 @@ class SugarSmashPlayer {
         highScores = new int[MAX_LEVELS];
     }
 
-    public SugarSmashPlayer(int playerId, String screenName) {
+    public SugarSmashPlayer(int playerId, String screenName, int [] highScores) {
         this.playerId = playerId;
         this.screenName = screenName;
         highScores = new int[MAX_LEVELS];
