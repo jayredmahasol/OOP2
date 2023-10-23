@@ -1,0 +1,144 @@
+public class Goods {
+   
+   String description;
+   double price;
+   
+   public Goods() {
+      description = " ";
+      price = 0;
+   }
+   
+   public Goods(String description, double price) {
+      this.description = description;
+      this.price = price;
+   }
+   
+   public String getDescription() {
+      return this.description;
+   }
+   
+   public double getPrice() {
+      return this.price;
+   }
+   
+   public void display(){
+      System.out.println("Description: " + getDescription() + "\nPrice: " + getPrice());   
+   }
+   
+}
+/////////////////////////////////////////
+public class Food extends Goods{
+   
+   int calories;
+   
+   public Food() {
+      calories = 0;
+   }
+   
+   public Food(String description, double price, int calories) {
+      super(description, price);
+      this.calories = calories;
+   }
+   
+   public int getCalories() {
+      return this.calories;
+   }
+   
+   public void display() {
+      super.display();
+      System.out.println("Calories: " + getCalories());
+   }
+   
+}
+//////////////////////////////////////////
+
+public class Toy extends Goods implements Taxable{
+   
+   int minAge;
+   
+   public Toy() {
+      minAge = 0;
+   }
+   
+   public Toy(String description, double price, int minAge) {
+      super(description, price);
+      this.minAge = minAge;
+   }
+   
+   public int getMinAge() {
+      return this.minAge;
+   }
+   
+   public double calculateTax() {
+      double tax = getPrice() * taxRate;
+      return tax;
+   }
+   
+   public void display() {
+      super.display();
+      System.out.println("Tax: " + calculateTax());
+      System.out.println("Minimum Age: " + getMinAge());
+   }
+   
+}
+/////////////////////////////////////
+
+public class Books extends Goods implements Taxable{
+   
+   String author;
+   
+   public Books() {
+      author = " ";
+   }
+   
+   public Books(String description, double price, String author) {
+      super(description, price);
+      this.author = author;
+   }
+   
+   public String getAuthor() {
+      return this.author;
+   }
+   
+   public double calculateTax() {
+      double tax = getPrice() * taxRate;
+      return tax;
+   }
+   
+   public void display() {
+      super.display();
+      System.out.println("Tax: " + calculateTax());
+      System.out.println("Author: " + getAuthor());
+   }
+   
+}
+////////////////////////////////////////////
+
+public interface Taxable {
+   
+   double taxRate = .12;
+   
+   double calculateTax();
+   
+}
+
+
+
+
+public class implement {
+   public static void main(String[] args) {
+      
+      Food food = new Food("Chicken", 40.57, 239);
+      food.display();
+      
+      System.out.println();
+      
+      Toy toy = new Toy("T-rex", 500, 7);
+      toy.display();
+      
+      System.out.println();
+      
+      Books book = new Books("BRIDGE TO TERABITHIA", 1000, "Katherine Paterson");
+      book.display();
+   }
+}
