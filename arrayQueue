@@ -4,7 +4,6 @@
 */
 import java.util.*;
 public class arrayQueue {
-    private int maxSize;
     private int[] queueArray;
     private int rear;
     private int front;
@@ -18,27 +17,32 @@ public class arrayQueue {
    
    // Method for enqueue or adding a value
    public void enqueue(int item) {
-      if (size == rear) {
+      if(size == rear) {
          System.out.println("[Queue is full]");
       } else {
          queueArray[rear] = item;
          rear++;
+         System.out.println(" [" + item + "] " + " was added in the queue.");
    }
+   
 }
    // Method for dequeue or deleting a value
-   public void dequeue() {
+   public void dequeue(int item) {
       if(front == rear) {
          System.out.println("Queue is empty");
       }
       else {
          for(int i = 0; i < rear - 1; i++) {
+         
             queueArray[i] = queueArray[i + 1];
             }
       if(rear < size) {
-         queueArray[rear] = 0;
+         queueArray[rear] = item;
       }
+         System.out.println("The first front was removed in the queue.");
          rear--;
    }
+   
 }
    // Method for getting the front 
    public void front() {
@@ -77,14 +81,21 @@ public class arrayQueue {
 
 // Class
 class testQueue {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter size: ");
-        int size = scanner.nextInt();
+   public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      int size = 0;
+      
+      // the user cant proceed to the menu if he/she input 0 or less than 0
+      if(size <= 0) {
+      do{
+         System.out.print("Enter a valid size (greater than 0): ");
+         size = scanner.nextInt();
+      }while (size <= 0);
+} // end of if statement and do while loop 
         
-        System.out.println("The size of the array " + size);
+        System.out.println("The size of the array:" + " [" + size + "] ");
         arrayQueue aq = new arrayQueue(size);
+      int value = 0;
       
         while (true) {
             System.out.println("\nMenu:");
@@ -100,11 +111,12 @@ class testQueue {
    switch (choice) {
       case 1:
          System.out.print("Enter value to push: ");
-         int value = scanner.nextInt();
+         scanner.nextLine();
+         value = scanner.nextInt();
          aq.enqueue(value);
       break;
-      case 2:
-         aq.dequeue();
+      case 2: 
+         aq.dequeue(value);
       break;
       case 3:
          aq.front();
@@ -125,4 +137,3 @@ class testQueue {
       }
    }
 }
-  
