@@ -5,11 +5,11 @@
 
 import java.util.*;
 class Node{
-    int data;
+    String data;
     Node next;
     Node prev;
 
-   Node(int data) {
+   Node(String data) {
         this.data = data;
         this.next = null;
         this.prev = null;
@@ -24,7 +24,7 @@ class QueueLinkedList {
     }
    
    // Method for enqueue or adding a value
-    public void enqueue(int data) {
+    public void enqueue(String data) {
         Node newNode = new Node(data);
         if (this.rear == null) {
             this.front = this.rear = newNode;
@@ -81,7 +81,7 @@ class QueueLinkedList {
         Node temp = this.front;
         System.out.println("Elements in the queue are: ");
         while (temp != null) {
-            System.out.print(temp.data + " ");
+            System.out.print(" ["+ temp.data + "] ");
             temp = temp.next;
         }
         System.out.println();
@@ -108,7 +108,8 @@ public class linkListqueue {
       switch(choice){
       case 1:
          System.out.print("Enter the element to enqueue: ");
-         int data = scan.nextInt();
+         scan.nextLine();
+         String data = scan.nextLine();
          qll.enqueue(data);
       break;
       case 2:
