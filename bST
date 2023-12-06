@@ -1,0 +1,140 @@
+class BinarySearchTree {
+  class Node {
+    int key;
+    Node left, right;
+
+    public Node(int item) {
+      key = item;
+      left = right = null;
+    }
+  }
+
+  Node root;
+
+  BinarySearchTree() {
+    root = null;
+  }
+
+  void insert(int key) {
+    root = insertKey(root, key);
+  }
+
+  // Insert key in the tree
+   Node insertKey(Node root, int key) {
+    
+    if (root == null) {
+      root = new Node(key);
+      return root;
+    }
+    if (key < root.key)
+      root.left = insertKey(root.left, key);
+    else if (key > root.key)
+      root.right = insertKey(root.right, key);
+
+    return root;
+  }
+
+  public void inorder() {
+    inorderRec(root);
+  }
+
+  // Inorder Traversal
+   public void inorderRec(Node root) {
+      
+   
+    if (root != null) {
+      inorderRec(root.left);
+      System.out.print(root.key + " --> ");
+      inorderRec(root.right);
+    }
+  }
+
+  public void deleteKey(int key) {
+    root = deleteRec(root, key);
+  }
+
+   public Node deleteRec(Node root, int key) {
+      if (root == null) {
+         System.out.println("The number was not found!");
+         return root;
+   }
+      if (key < root.key)
+         root.left = deleteRec(root.left, key);
+      else if (key > root.key)
+         root.right = deleteRec(root.right, key);
+      else {
+      
+      if (root.left == null)
+         return root.right;
+      else if (root.right == null)
+         return root.left;
+      // If the node has two children. Place the inorder successor in position of the node to be deleted
+      root.key = minValue(root.right);
+
+      // Delete the inorder successor
+      root.right = deleteRec(root.right, root.key);
+    }
+
+   return root;
+  }
+
+  // Find the inorder successor
+   public int minValue(Node root) {
+      int minv = root.key;
+      while (root.left != null) {
+         minv = root.left.key;
+         root = root.left;
+   }
+      return minv;
+  }
+  
+  // is Empty Method use for knowing if the binary tree is empty or not
+   public boolean isEmpty() {
+      return root == null;
+   }
+  
+   public boolean search(int key) {
+      if(root == null){
+         System.out.println("[The Binary Tree is empty.]");
+      }
+      
+       if ((root != key)) {
+         System.out.println("[The number you input was not founded in the tree]");
+      }
+      return false;
+   }
+   
+   public void postorder() {
+    postorderRec(root);
+  }
+
+  // Inorder Traversal
+   void postorderRec(Node root) {
+      if (root == null) {
+         return;
+   }
+      postorderRec(root.left);
+      
+      postorderRec(root.right);
+      
+      System.out.print(root.key + " --> ");
+    
+  }
+  
+  public void preorder() {
+    preorderRec(root);
+  }
+
+  // Inorder Traversal
+   void preorderRec(Node root) {
+      if (root == null) {
+         return;
+   }
+      
+      System.out.print(root.key + " --> ");
+      
+      preorderRec(root.left);
+      
+      preorderRec(root.right);
+  }
+}  
