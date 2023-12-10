@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class FinalActivity2 extends JFrame implements ActionListener{
-    JLabel quest, currentScore;
+    JLabel quest;
     JButton confirm;
     JCheckBox choice1, choice2, choice3;
 
@@ -18,9 +18,6 @@ public class FinalActivity2 extends JFrame implements ActionListener{
 
         quest = new JLabel(question1, SwingConstants.CENTER);
         quest.setFont(new Font("Times New Roman",Font.BOLD,25));
-
-        currentScore = new JLabel("SCORE: ");
-
 
         choice1 = new JCheckBox("Red");
         choice2 = new JCheckBox("White");
@@ -101,16 +98,13 @@ public class FinalActivity2 extends JFrame implements ActionListener{
             }
         });
 
-
-
         setTitle("Quiz Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(6,1));
+        setLayout(new GridLayout(5,1));
         setSize(500, 500);
 
         add(quest);
-        add(currentScore);
         add(choice1);
         add(choice2);
         add(choice3);
@@ -122,10 +116,6 @@ public class FinalActivity2 extends JFrame implements ActionListener{
     public static void main(String [] args) {
         new FinalActivity2();
     }
-
-
-
-
 
     public void actionPerformed(ActionEvent e) {
 
