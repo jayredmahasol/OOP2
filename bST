@@ -1,140 +1,273 @@
-class BinarySearchTree {
-  class Node {
-    int key;
-    Node left, right;
+import java.util.*;
 
-    public Node(int item) {
+class BinarySearchTree {
+   class Node {
+      int key;
+      Node left, right;
+
+   public Node(int item) {
       key = item;
       left = right = null;
-    }
-  }
+      }
+   }
 
-  Node root;
+   Node root;
 
-  BinarySearchTree() {
-    root = null;
-  }
+   BinarySearchTree() {
+      root = null;
+   }
+   
+   // Is EMpty Method
+   public boolean isEmpty(){
+      return root == null;
+     
+   }
+   // Search Method
+   Node search(Node root, int key) {
+      // Base Cases: root is null or key is present at root
+      if (root == null || root.key == key)
+         return root;
+ 
+      // Key is greater than root's key
+      if (root.key < key)
+         return search(root.right, key);
+ 
+      // Key is smaller than root's key
+         return search(root.left, key);
+      }
+      
+      
+   void insert(int key) {
+      root = insertKey(root, key);
+   }
 
-  void insert(int key) {
-    root = insertKey(root, key);
-  }
-
-  // Insert key in the tree
+   // Insert key in the tree
    Node insertKey(Node root, int key) {
-    
-    if (root == null) {
-      root = new Node(key);
-      return root;
-    }
-    if (key < root.key)
+      // Return a new node if the tree is empty
+      if (root == null) {
+         root = new Node(key);
+         return root;
+      }
+
+    // Traverse to the right place and insert the node
+   if (key < root.key)
       root.left = insertKey(root.left, key);
-    else if (key > root.key)
+   else if (key > root.key)
       root.right = insertKey(root.right, key);
 
-    return root;
-  }
-
-  public void inorder() {
-    inorderRec(root);
-  }
-
-  // Inorder Traversal
-   public void inorderRec(Node root) {
-      
-   
-    if (root != null) {
-      inorderRec(root.left);
-      System.out.print(root.key + " --> ");
-      inorderRec(root.right);
-    }
-  }
-
-  public void deleteKey(int key) {
-    root = deleteRec(root, key);
-  }
-
-   public Node deleteRec(Node root, int key) {
-      if (root == null) {
-         System.out.println("The number was not found!");
-         return root;
+   return root;
    }
-      if (key < root.key)
+   
+   void deleteKey(int key) {
+      if(root == null) {
+         System.out.println("The binary search tree is empty/not found!");
+      }
+      root = deleteRec(root, key); 
+   }
+
+   Node deleteRec(Node root, int key) {
+      // Return if the tree is empty
+      if (root == null)
+         
+         return root;
+
+    // Find the node to be deleted
+      if(key < root.key)
          root.left = deleteRec(root.left, key);
       else if (key > root.key)
          root.right = deleteRec(root.right, key);
       else {
-      
-      if (root.left == null)
+      // If the node is with only one child or no child
+      if(root.left == null)
          return root.right;
       else if (root.right == null)
          return root.left;
-      // If the node has two children. Place the inorder successor in position of the node to be deleted
+
+      // If the node has two children
+      // Place the inorder successor in position of the node to be deleted
       root.key = minValue(root.right);
 
       // Delete the inorder successor
       root.right = deleteRec(root.right, root.key);
     }
 
-   return root;
+    return root;
+  }
+   // Find the height of the tree
+   public int height() {
+      return height(root);
+   }
+
+   public int height(Node root) {
+      if (root == null) {
+         return 0;
+      } else {
+         int leftHeight = height(root.left);
+         int rightHeight = height(root.right);
+
+         return Math.max(leftHeight, rightHeight) + 1;
+      }
+   }
+   // Find the number of nodes in the tree
+   public int countNodes() {
+      return countNodes(root);
+   }
+
+   public int countNodes(Node root) {
+      if (root == null) {
+         return 0;
+      } else {
+      return countNodes(root.left) + countNodes(root.right) + 1;
+      }
+   }
+
+   // Find the number of leaves in the tree
+   public int countLeaves() {
+      return countLeaves(root);
+   }
+
+   public int countLeaves(Node root) {
+      if (root == null) {
+         return 0;
+      } else if (root.left == null && root.right == null) {
+      return 1;
+      } else {
+         return countLeaves(root.left) + countLeaves(root.right);
+      }
+   }
+
+
+     
+   void inorder() {
+      inorderRec(root);
+   }
+
+   // Inorder Traversal
+   void inorderRec(Node root) {
+      if (root != null) {
+         inorderRec(root.left);
+         System.out.print(root.key + " -> ");
+         inorderRec(root.right);
+      }
+   }
+   
+   void preorder() {
+      preorderRec(root);
   }
 
-  // Find the inorder successor
-   public int minValue(Node root) {
+   void preorderRec(Node root) {
+      if (root == null)
+      return;
+
+   // traverse the root node
+   System.out.print(root.key + " -> ");
+   // traverse the left child
+   preorderRec(root.left);
+   // traverse the right child
+   preorderRec(root.right);
+   }
+  
+   void postorder() {
+      prostorderRec(root);
+   }
+
+  
+   void prostorderRec(Node root) {
+      if (root == null)
+      return;
+
+   // traverse the left child
+   prostorderRec(root.left);
+
+   // traverse the right child
+   prostorderRec(root.right);
+
+   // traverse the root node
+   System.out.print(root.key + " -> ");
+   }
+
+   // Find the inorder successor
+   int minValue(Node root) {
       int minv = root.key;
       while (root.left != null) {
          minv = root.left.key;
          root = root.left;
    }
       return minv;
-  }
-  
-  // is Empty Method use for knowing if the binary tree is empty or not
-   public boolean isEmpty() {
-      return root == null;
-   }
-  
-   public boolean search(int key) {
-      if(root == null){
-         System.out.println("[The Binary Tree is empty.]");
       }
-      
-       if ((root != key)) {
-         System.out.println("[The number you input was not founded in the tree]");
-      }
-      return false;
    }
-   
-   public void postorder() {
-    postorderRec(root);
-  }
 
-  // Inorder Traversal
-   void postorderRec(Node root) {
-      if (root == null) {
-         return;
-   }
-      postorderRec(root.left);
+
+
+//////
+
+
+import java.util.*;
+class Main {
+   public static void main(String[] args) {
+      Scanner sc = new Scanner (System.in);
+      BinarySearchTree tree = new BinarySearchTree();
       
-      postorderRec(root.right);
-      
-      System.out.print(root.key + " --> ");
+      while(true){
+         System.out.println("\n-----MENU-----");
+         System.out.println("(1.) Determine whether the binary search tree is empty");
+         System.out.println("(2.) Search the binary search tree for a particular item");
+         System.out.println("(3.) Insert an item in the binary search tree");
+         System.out.println("(4.) Delete an item from the binary search tree");
+         System.out.println("(5.) Find the height of the binary search tree");
+         System.out.println("(6.) Find the number of nodes in the binary search tree");
+         System.out.println("(7.) Find the number of leaves in the binary search tree");
+         System.out.println("(8.) Traverse the binary search tree");
     
-  }
-  
-  public void preorder() {
-    preorderRec(root);
-  }
-
-  // Inorder Traversal
-   void preorderRec(Node root) {
-      if (root == null) {
-         return;
+         System.out.print("Enter your choice:");
+         int choice = sc.nextInt();
+    
+   switch(choice){
+      case 1:
+         System.out.println("Is empty?"+ " [" + tree.isEmpty() + "] ");
+         break;
+      case 2:
+         System.out.println("Enter node to search: ");
+         int j = sc.nextInt();
+         if (tree.search(tree.root, j) == null)
+            System.out.println(j + " not found");
+         else
+         System.out.println(j + " exist");
+      break;
+      case 3:
+         System.out.println("Enter node: ");
+         int insertNode = sc.nextInt();
+         tree.insert(insertNode);   
+      break;
+      case 4:
+         System.out.println("Enter node to delete: ");
+         int deleteNode = sc.nextInt();
+         tree.deleteKey(deleteNode);
+      break;
+      case 5:
+         System.out.print("\nHeight: " + " [" + tree.height() + "] ");
+      break;
+      case 6:
+         System.out.print("\nNumber of nodes: " +  " [" + tree.countNodes() + "] ");
+      break; 
+      case 7:
+         System.out.print("\nNumber of leaves: " + " [" +tree.countLeaves() + "] ");
+      break;
+      case 8:
+         System.out.print("\nIn-Order Traversal: ");
+         tree.inorder();
+         System.out.print("\nPre-Order Traversal: ");
+         tree.preorder();
+         System.out.print("\nPost-Order Traversal: ");
+         tree.postorder();
+      break;
+      case 9:
+         sc.close();
+         System.exit(0);
+      break; 
+      default:
+         System.out.print("Invalid input. Please try again");
+         } 
+      }
    }
-      
-      System.out.print(root.key + " --> ");
-      
-      preorderRec(root.left);
-      
-      preorderRec(root.right);
-  }
-}  
+}
