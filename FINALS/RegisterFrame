@@ -1,0 +1,111 @@
+import javax.swing.*;
+import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.GridLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+class RegisterFrame extends JFrame implements ActionListener {
+    private JTextField idField;
+    private JTextField nameField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+    private JButton registerButton;
+    private JButton signInButton;
+    private LoginFrame loginFrame;
+    private List<User> registeredUsers;
+    private User registeredUser;
+
+    public RegisterFrame(LoginFrame loginFrame) {
+        super("Register");
+
+        this.loginFrame = loginFrame;
+
+        // Create components
+        idField = new JTextField();
+        nameField = new JTextField();
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+        confirmPasswordField = new JPasswordField();
+        registerButton = new JButton("Register");
+        signInButton = new JButton("Sign-In");
+
+        // Set layouts
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        // Add components to frame
+        add(new JLabel("ID:"));
+        add(idField);
+        add(new JLabel("Name:"));
+        add(nameField);
+        add(new JLabel("Username:"));
+        add(usernameField);
+        add(new JLabel("Password:"));
+        add(passwordField);
+        add(new JLabel("Confirm Password:"));
+        add(confirmPasswordField);
+        add(registerButton);
+        add(signInButton);
+
+        // Add action listeners
+        registerButton.addActionListener(this);
+        signInButton.addActionListener(this);
+
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        registeredUsers = new ArrayList<>();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String id = idField.getText();
+        String name = nameField.getText();
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        if (e.getSource() == registerButton) {
+            if (validateInput(id, name, username, password, confirmPassword)) {
+                if (registerUser(id, name, username, password)) {
+                    registeredUser = new User(id, name, username, password);
+                    loginFrame.addRegisteredUser(registeredUser);
+                    JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
+                    dispose();
+                    loginFrame.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid input. Please fill in all the fields.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == signInButton) {
+            dispose();
+            loginFrame.setVisible(true);
+        }
+    }
+
+    private boolean validateInput(String id, String name, String username, String password, String confirmPassword) {
+        return !id.isEmpty() && !name.isEmpty() && !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
+    }
+
+    private boolean registerUser(String id, String name, String username, String password) {
+        if (!password.equals(confirmPasswordField.getText())) {
+            JOptionPane.showMessageDialog(this, "Passwords do not match.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        for (User user : registeredUsers) {
+            if (user.getUsername().equals(username)) {
+                JOptionPane.showMessageDialog(this, "Username already exists.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        User newUser = new User(id, name, username, password);
+        registeredUsers.add(newUser);
+        return true;
+    }
+}
