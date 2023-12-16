@@ -1,0 +1,132 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+class AddProductFrame extends JFrame implements ActionListener {
+    private JTextField productNumberField;
+    private JTextField productNameField;
+    private JTextField descriptionField;
+    private JTextField quantityField;
+    private JTextField priceField;
+    private JButton addButton;
+//     private JButton confirmButton;
+    private JTextArea productListArea;
+    private JScrollPane scrollPane;
+    private User registeredUser;
+    private List<Product> productList;
+    private JButton proceedButton;
+    
+    public double getTotalPrice() {
+        double total = 0;
+        for (Product product : productList) {
+            total += product.getPrice() * product.getQuantity();
+        }
+        return total;
+    }
+
+    public AddProductFrame(User registeredUser) {
+        super("Add Product");
+
+        this.registeredUser = registeredUser;
+        productList = new ArrayList<>();
+
+        // Create components
+        productNumberField = new JTextField();
+        productNameField = new JTextField();
+        descriptionField = new JTextField();
+        quantityField = new JTextField();
+        priceField = new JTextField();
+        addButton = new JButton("Add Product");
+        proceedButton = new JButton("Proceed to Buy");
+        productListArea = new JTextArea(20, 40);
+        productListArea.setEditable(false);
+        scrollPane = new JScrollPane(productListArea);
+
+        // Set layouts
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        // Add components to frame
+        add(new JLabel("User ID: " + registeredUser.getId()));
+        add(new JLabel("User Name: " + registeredUser.getName()));
+        add(new JLabel("Product Number:"));
+        add(productNumberField);
+        add(new JLabel("Product Name:"));
+        add(productNameField);
+        add(new JLabel("Description:"));
+        add(descriptionField);
+        add(new JLabel("Quantity:"));
+        add(quantityField);
+        add(new JLabel("Price:"));
+        add(priceField);
+        add(addButton);
+        add(proceedButton); 
+        add(scrollPane);
+
+        // Add action listeners
+        addButton.addActionListener(this);
+        proceedButton.addActionListener(this);
+
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addButton) {
+            try {
+                String productNumber = productNumberField.getText();
+                String productName = productNameField.getText();
+                String description = descriptionField.getText();
+                int quantity = Integer.parseInt(quantityField.getText());
+                double price = Double.parseDouble(priceField.getText());
+
+                Product newProduct = new Product(productNumber, productName, description, quantity, price);
+                productList.add(newProduct);
+
+                updateProductListArea();
+                clearFields();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numeric values for quantity and price.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == proceedButton) {
+            openBuyProductsFrame(); // New method for handling the "Proceed" button
+        }
+    }
+    
+    private void openBuyProductsFrame() {
+    BuyProductsFrame buyProductsFrame = new BuyProductsFrame(getProductList(), this);
+    buyProductsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            // Handle window closing event if needed
+        }
+    });
+}
+
+    
+    
+
+    private void clearFields() {
+        productNumberField.setText("");
+        productNameField.setText("");
+        descriptionField.setText("");
+        quantityField.setText("");
+        priceField.setText("");
+    }
+
+    void updateProductListArea() {
+        productListArea.setText("");
+        for (Product product : productList) {
+            productListArea.append(product.toString() + "---------------\n");
+        }
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+}
