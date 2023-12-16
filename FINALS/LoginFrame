@@ -1,0 +1,120 @@
+import javax.swing.*;
+import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.GridLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class LoginFrame extends JFrame implements ActionListener {
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JButton registerButton;
+    private List<User> registeredUsers;
+    private User loggedInUser;
+
+    public LoginFrame() {
+        super("Login System");
+
+        registeredUsers = new ArrayList<>();
+
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+        loginButton = new JButton("Login");
+        registerButton = new JButton("Register");
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        add(new JLabel("Username:"));
+        add(usernameField);
+        add(new JLabel("Password:"));
+        add(passwordField);
+        add(loginButton);
+        add(registerButton);
+
+        loginButton.addActionListener(this);
+        registerButton.addActionListener(this);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 200);
+        setLocationRelativeTo(null);
+        setVisible(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+
+        if (e.getSource() == loginButton) {
+            if (loginUser(username, password)) {
+                loggedInUser = getRegisteredUserByUsername(username);
+                JOptionPane.showMessageDialog(this, "Login successful. Welcome, " + username + "!");
+                openAddProductFrame();
+                setLoginFrameVisibility(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Login failed. Incorrect username or password.", "Login Unsuccessful", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == registerButton) {
+            openRegisterFrame();
+            setLoginFrameVisibility(false);
+        }
+    }
+    
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoginFrameVisibility(boolean visible) {
+        setVisible(visible);
+    }
+
+    private void openAddProductFrame() {
+        AddProductFrame addProductFrame = new AddProductFrame(getLoggedInUser());
+        addProductFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                List<Product> productList = addProductFrame.getProductList();
+                for (Product product : productList) {
+                    System.out.println(product.toString() + "---------------");
+                }
+                System.exit(0);
+            }
+        });
+    }
+    
+    private User getRegisteredUserByUsername(String username) {
+        for (User user : registeredUsers) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null; // Return null if the user is not found
+    }
+
+    private boolean loginUser(String username, String password) {
+        for (User user : registeredUsers) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void openRegisterFrame() {
+        RegisterFrame registerFrame = new RegisterFrame(this);
+        registerFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
+
+    public void addRegisteredUser(User newUser) {
+        registeredUsers.add(newUser);
+    }
+    
+    
+}
