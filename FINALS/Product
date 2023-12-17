@@ -1,11 +1,3 @@
-import javax.swing.*;
-import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.GridLayout;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 class Product {
     private String productNumber;
     private String productName;
@@ -45,7 +37,7 @@ class Product {
         return price;
     }
 
-    @Override
+    
     public String toString() {
         return "Product Number: " + productNumber + "\n" +
                 "Product Name: " + productName + "\n" +
