@@ -87,17 +87,18 @@ class RegisterFrame extends JFrame implements ActionListener {
         }
     }
 
+   // Method for comfirmation. IsEmpty
     private boolean validateInput(String id, String name, String username, String password, String confirmPassword) {
         return !id.isEmpty() && !name.isEmpty() && !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
     }
-
+   // Method for validation of Password
     private boolean registerUser(String id, String name, String username, String password) {
         if (!password.equals(confirmPasswordField.getText())) {
             JOptionPane.showMessageDialog(this, "Passwords do not match.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
-        for (User user : registeredUsers) {
+   // Loop process where it will not register if the username was already taken.
+        for(User user : registeredUsers) {
             if (user.getUsername().equals(username)) {
                 JOptionPane.showMessageDialog(this, "Username already exists.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
                 return false;
