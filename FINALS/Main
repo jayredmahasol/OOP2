@@ -1,17 +1,11 @@
-import javax.swing.*;
-import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.GridLayout;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
+import javax.swing.*;
 public class Main{
-public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            LoginFrame loginFrame = new LoginFrame();
-            loginFrame.setVisible(true);
-        });
+   public static void main(String[] args) {
+      SwingUtilities.invokeLater(() -> {
+      LoginFrame loginFrame = new LoginFrame();
+      loginFrame.setVisible(true);
+   });
     }
 
 }
