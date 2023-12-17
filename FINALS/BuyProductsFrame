@@ -16,7 +16,7 @@ class BuyProductsFrame extends JFrame implements ActionListener {
     private JButton buyButton;
     private JButton generateIdButton;
 
-    public BuyProductsFrame(List<Product> productList, AddProductFrame addProductFrame) {
+    public BuyProductsFrame(List<Product> productList, AddProductFrame addProductFrame, String userId) {
         super("Buy Products");
 
         this.productList = productList;
@@ -24,13 +24,15 @@ class BuyProductsFrame extends JFrame implements ActionListener {
 
         // Create components for selecting products and quantities
         quantitySpinners = new java.util.ArrayList<>();
-        JPanel productPanel = new JPanel(new GridLayout(productList.size(), 2));
+        JPanel productPanel = new JPanel(new GridLayout(productList.size(), 2, 10, 5));
 
         for (Product product : productList) {
             JLabel productLabel = new JLabel(product.getProductName());
             JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, product.getQuantity(), 1));
             productPanel.add(productLabel);
             productPanel.add(quantitySpinner);
+
+            // Set preferred size for the text fields
             quantitySpinners.add(quantitySpinner);
             
             quantitySpinner.addChangeListener(new ChangeListener() {
@@ -51,8 +53,10 @@ class BuyProductsFrame extends JFrame implements ActionListener {
         generateIdButton = new JButton("Generate ID");
         generateIdButton.addActionListener(this);
         
-        transactionIdField = new JTextField();
+        transactionIdField = new JTextField(randomTransactionId);
+        transactionIdField.setEditable(false);
         customerIdField = new JTextField();
+
         totalPriceField = new JTextField();
         totalPriceField.setEditable(false);
 
@@ -77,11 +81,14 @@ class BuyProductsFrame extends JFrame implements ActionListener {
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 200);
+        setSize(400, 300);
         setLocationRelativeTo(null);
         setVisible(true);
 
+
         updateTotalPrice(); // Calculate and display the initial total price
+        customerIdField.setText(userId);
+        customerIdField.setEditable(false);
     }
     
     // Method to generate a random transaction ID
@@ -148,6 +155,7 @@ class BuyProductsFrame extends JFrame implements ActionListener {
             }
         }
     }
+
 }
 
 
