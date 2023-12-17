@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.Font;
 
 class RegisterFrame extends JFrame implements ActionListener {
     private JTextField idField;
@@ -17,37 +18,66 @@ class RegisterFrame extends JFrame implements ActionListener {
     private LoginFrame loginFrame;
     private List<User> registeredUsers;
     private User registeredUser;
+    private JLabel label_5;
 
     public RegisterFrame(LoginFrame loginFrame) {
         super("Register");
+        setResizable(false);
 
         this.loginFrame = loginFrame;
 
         // Create components
         idField = new JTextField();
+        idField.setBounds(108, 75, 157, 29);
         nameField = new JTextField();
+        nameField.setBounds(108, 118, 157, 29);
         usernameField = new JTextField();
+        usernameField.setBounds(108, 161, 157, 29);
         passwordField = new JPasswordField();
+        passwordField.setBounds(108, 201, 157, 29);
         confirmPasswordField = new JPasswordField();
+        confirmPasswordField.setBounds(144, 247, 121, 29);
         registerButton = new JButton("Register");
+        registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        registerButton.setBounds(154, 297, 104, 32);
         signInButton = new JButton("Sign-In");
-
-        // Set layouts
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        signInButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        signInButton.setBounds(13, 297, 104, 32);
+        getContentPane().setLayout(null);
 
         // Add components to frame
-        add(new JLabel("ID:"));
-        add(idField);
-        add(new JLabel("Name:"));
-        add(nameField);
-        add(new JLabel("Username:"));
-        add(usernameField);
-        add(new JLabel("Password:"));
-        add(passwordField);
-        add(new JLabel("Confirm Password:"));
-        add(confirmPasswordField);
-        add(registerButton);
-        add(signInButton);
+        JLabel label = new JLabel("ID:");
+        label.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label.setBounds(13, 67, 39, 43);
+        getContentPane().add(label);
+        getContentPane().add(idField);
+        JLabel label_1 = new JLabel("Name:");
+        label_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_1.setBounds(13, 115, 63, 32);
+        getContentPane().add(label_1);
+        getContentPane().add(nameField);
+        JLabel label_2 = new JLabel("Username:");
+        label_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_2.setBounds(13, 158, 104, 32);
+        getContentPane().add(label_2);
+        getContentPane().add(usernameField);
+        JLabel label_3 = new JLabel("Password:");
+        label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_3.setBounds(8, 198, 90, 32);
+        getContentPane().add(label_3);
+        getContentPane().add(passwordField);
+        JLabel lblConfirmpassword = new JLabel("Confirm Password:");
+        lblConfirmpassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblConfirmpassword.setBounds(13, 241, 146, 32);
+        getContentPane().add(lblConfirmpassword);
+        getContentPane().add(confirmPasswordField);
+        getContentPane().add(registerButton);
+        getContentPane().add(signInButton);
+        
+        label_5 = new JLabel("Registration Form");
+        label_5.setFont(new Font("Tahoma", Font.BOLD, 20));
+        label_5.setBounds(42, 11, 232, 32);
+        getContentPane().add(label_5);
 
         // Add action listeners
         registerButton.addActionListener(this);
@@ -55,7 +85,7 @@ class RegisterFrame extends JFrame implements ActionListener {
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 300);
+        setSize(300, 380);
         setLocationRelativeTo(null);
         setVisible(true);
         registeredUsers = new ArrayList<>();
