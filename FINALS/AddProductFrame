@@ -1,8 +1,12 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 class AddProductFrame extends JFrame implements ActionListener {
     private JTextField productNumberField;
@@ -11,23 +15,14 @@ class AddProductFrame extends JFrame implements ActionListener {
     private JTextField quantityField;
     private JTextField priceField;
     private JButton addButton;
+    private JButton proceedButton;
     private JTextArea productListArea;
     private JScrollPane scrollPane;
     private User registeredUser;
     private List<Product> productList;
-    private JButton proceedButton;
+    private JTextField customerIdField;  
+    private JTextField totalPriceField;
     
-    public double getTotalPrice() {
-        double total = 0;
-        for (Product product : productList) {
-            total += product.getPrice() * product.getQuantity();
-        }
-        return total;
-    }
-    public String getUserId() {
-    return registeredUser.getId();
-   }
-
     public AddProductFrame(User registeredUser) {
         super("Add Product");
 
@@ -45,26 +40,18 @@ class AddProductFrame extends JFrame implements ActionListener {
         productListArea = new JTextArea(20, 40);
         productListArea.setEditable(false);
         scrollPane = new JScrollPane(productListArea);
+        customerIdField = new JTextField();
+        totalPriceField = new JTextField();
+        totalPriceField.setEditable(false);
 
         // Set layouts
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
 
-        // Add components to frame
-        add(new JLabel("User ID: " + registeredUser.getId()));
-        add(new JLabel("User Name: " + registeredUser.getName()));
-        add(new JLabel("Product Number:"));
-        add(productNumberField);
-        add(new JLabel("Product Name:"));
-        add(productNameField);
-        add(new JLabel("Description:"));
-        add(descriptionField);
-        add(new JLabel("Quantity:"));
-        add(quantityField);
-        add(new JLabel("Price:"));
-        add(priceField);
-        add(addButton);
-        add(proceedButton); 
-        add(scrollPane);
+        // Create and add panels
+        add(createUserDetailsPanel(), BorderLayout.NORTH);
+        add(createProductDetailsPanel(), BorderLayout.CENTER);
+        add(createProductListPanel(), BorderLayout.WEST);
+        add(createButtonPanel(), BorderLayout.SOUTH);
 
         // Add action listeners
         addButton.addActionListener(this);
@@ -72,9 +59,78 @@ class AddProductFrame extends JFrame implements ActionListener {
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private JPanel createUserDetailsPanel() {
+        JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
+        panel.setBorder(BorderFactory.createTitledBorder("User Details"));
+
+        panel.add(createLabel("User ID:"));
+        panel.add(createLabel(registeredUser.getId()));
+        panel.add(createLabel("User Name:"));
+        panel.add(createLabel(registeredUser.getName()));
+
+        return panel;
+    }
+
+    private JPanel createProductDetailsPanel() {
+    JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10)); // Increased horizontal and vertical gap
+    panel.setBorder(BorderFactory.createTitledBorder("Product Details"));
+
+    panel.add(createLabel("Product Number:"));
+    panel.add(productNumberField);
+    panel.add(createLabel("Product Name:"));
+    panel.add(productNameField);
+    panel.add(createLabel("Description:"));
+    panel.add(descriptionField);
+    panel.add(createLabel("Quantity:"));
+    panel.add(quantityField);
+    panel.add(createLabel("Price:"));
+    panel.add(priceField);
+
+    return panel;
+}
+
+private JPanel createProductListPanel() {
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.setBorder(BorderFactory.createTitledBorder("Product List"));
+
+    productListArea.setPreferredSize(new Dimension(300, 400));
+
+    // Set the vertical scroll policy for the JScrollPane
+    scrollPane = new JScrollPane();
+    scrollPane.setViewportView(productListArea);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    panel.add(scrollPane, BorderLayout.CENTER);
+
+    return panel;
+}
+
+private JPanel createButtonPanel() {
+    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Increased horizontal and vertical gap
+    addButton = new JButton("Add Product");
+    proceedButton = new JButton("Proceed to Buy");
+    
+    JButton logoutButton = new JButton("Logout");
+    logoutButton.setActionCommand("logout");
+    logoutButton.addActionListener(this);
+    
+    panel.add(addButton);
+    panel.add(proceedButton);
+    panel.add(logoutButton);
+    
+    return panel;
+}
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        return label;
     }
 
     @Override
@@ -82,11 +138,26 @@ class AddProductFrame extends JFrame implements ActionListener {
         if (e.getSource() == addButton) {
             try {
                 String productNumber = productNumberField.getText();
+                // Validate if productNumber is an integer
+                if (!validateNumericInput(productNumber)) {
+                    JOptionPane.showMessageDialog(this, "Please enter a valid integer for the product number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 String productName = productNameField.getText();
                 String description = descriptionField.getText();
+                
+                if (productName.isEmpty() || description.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Incomplete Information", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 int quantity = Integer.parseInt(quantityField.getText());
                 double price = Double.parseDouble(priceField.getText());
-
+                
+                if (quantity < 0 || price < 0) {
+                JOptionPane.showMessageDialog(this, "Quantity and price must be non-negative values.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                return;
+               }
+            
                 Product newProduct = new Product(productNumber, productName, description, quantity, price);
                 productList.add(newProduct);
 
@@ -101,19 +172,60 @@ class AddProductFrame extends JFrame implements ActionListener {
             } else {
                 openBuyProductsFrame();
             }
+        } else if ("logout".equals(e.getActionCommand())) {
+        // Handle the Logout button
+        dispose(); // Close the AddProductFrame
+        openLoginFrame(); // Open the LoginFrame
+      }
+    }
+    
+    private boolean validateNumericInput(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
     
-    private void openBuyProductsFrame() {
-    BuyProductsFrame buyProductsFrame = new BuyProductsFrame(getProductList(), this, getUserId());
-    buyProductsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-            // Handle window closing event if needed
-        }
-    });
-}
+    private void openLoginFrame() {
+    // Check if a LoginFrame instance already exists
+    LoginFrame loginFrame = getLoginFrameInstance();
 
+    if (loginFrame == null) {
+        // If no instance exists, create a new one
+        loginFrame = new LoginFrame();
+        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
+
+    // Set the visibility of the LoginFrame to true
+    loginFrame.setLoginFrameVisibility(true);
+   }
+   
+   private LoginFrame getLoginFrameInstance() {
+    // Iterate through all open windows to find an instance of LoginFrame
+    for (Window window : Window.getWindows()) {
+        if (window instanceof LoginFrame) {
+            return (LoginFrame) window;
+        }
+    }
+    return null; // Return null if no instance is found
+   }
+    
+    private void openBuyProductsFrame() {
+        BuyProductsFrame buyProductsFrame = new BuyProductsFrame(getProductList(), this, getUserId());
+        buyProductsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
 
     private void clearFields() {
         productNumberField.setText("");
@@ -132,5 +244,17 @@ class AddProductFrame extends JFrame implements ActionListener {
 
     public List<Product> getProductList() {
         return productList;
+    }
+
+    public double getTotalPrice() {
+        double total = 0;
+        for (Product product : productList) {
+            total += product.getPrice() * product.getQuantity();
+        }
+        return total;
+    }
+
+    public String getUserId() {
+        return registeredUser.getId();
     }
 }
