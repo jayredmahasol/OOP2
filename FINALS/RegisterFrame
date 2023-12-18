@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 class RegisterFrame extends JFrame implements ActionListener {
     private JTextField idField;
@@ -19,9 +20,11 @@ class RegisterFrame extends JFrame implements ActionListener {
     private List<User> registeredUsers;
     private User registeredUser;
     private JLabel label_5;
+    private JLabel lblNewLabel;
 
     public RegisterFrame(LoginFrame loginFrame) {
         super("Register");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
         setResizable(false);
 
         this.loginFrame = loginFrame;
@@ -37,7 +40,7 @@ class RegisterFrame extends JFrame implements ActionListener {
         passwordField.setBounds(108, 201, 157, 29);
         confirmPasswordField = new JPasswordField();
         confirmPasswordField.setBounds(144, 247, 121, 29);
-        registerButton = new JButton("Register");
+        registerButton = new JButton("Sign-Up");
         registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
         registerButton.setBounds(154, 297, 104, 32);
         signInButton = new JButton("Sign-In");
@@ -46,9 +49,9 @@ class RegisterFrame extends JFrame implements ActionListener {
         getContentPane().setLayout(null);
 
         // Add components to frame
-        JLabel label = new JLabel("ID:");
+        JLabel label = new JLabel("ID Number:");
         label.setFont(new Font("Tahoma", Font.BOLD, 12));
-        label.setBounds(13, 67, 39, 43);
+        label.setBounds(13, 67, 90, 43);
         getContentPane().add(label);
         getContentPane().add(idField);
         JLabel label_1 = new JLabel("Name:");
@@ -63,7 +66,7 @@ class RegisterFrame extends JFrame implements ActionListener {
         getContentPane().add(usernameField);
         JLabel label_3 = new JLabel("Password:");
         label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-        label_3.setBounds(8, 198, 90, 32);
+        label_3.setBounds(13, 198, 90, 32);
         getContentPane().add(label_3);
         getContentPane().add(passwordField);
         JLabel lblConfirmpassword = new JLabel("Confirm Password:");
@@ -75,9 +78,15 @@ class RegisterFrame extends JFrame implements ActionListener {
         getContentPane().add(signInButton);
         
         label_5 = new JLabel("Registration Form");
-        label_5.setFont(new Font("Tahoma", Font.BOLD, 20));
-        label_5.setBounds(42, 11, 232, 32);
+        label_5.setFont(new Font("Tahoma", Font.BOLD, 19));
+        label_5.setBounds(90, 21, 184, 32);
         getContentPane().add(label_5);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setBounds(26, 16, 50, 50);
+        ImageIcon img = new ImageIcon(this.getClass().getResource("/403392748-221166691025354-292490.png") );
+        lblNewLabel.setIcon(img);
+        getContentPane().add(lblNewLabel);
 
         // Add action listeners
         registerButton.addActionListener(this);
