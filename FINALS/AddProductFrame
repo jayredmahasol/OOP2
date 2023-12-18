@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.awt.Toolkit;
 
 class AddProductFrame extends JFrame implements ActionListener {
     private JTextField productNumberField;
@@ -25,7 +26,8 @@ class AddProductFrame extends JFrame implements ActionListener {
     
     public AddProductFrame(User registeredUser) {
         super("Add Product");
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setResizable(false);
         this.registeredUser = registeredUser;
         productList = new ArrayList<>();
 
