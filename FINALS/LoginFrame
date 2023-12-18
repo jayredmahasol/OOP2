@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 public class LoginFrame extends JFrame implements ActionListener {
     private JTextField usernameField;
@@ -15,29 +17,38 @@ public class LoginFrame extends JFrame implements ActionListener {
     private List<User> registeredUsers;
     private User loggedInUser;
     private JLabel lblNewLabel;
+    private JLabel lblNewLabel_1;
     
-
+    
+    
     public LoginFrame() {
         super("Login System");
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setAlwaysOnTop(true);
+        
+        setResizable(false);
+        
+        
+        
+        
         registeredUsers = new ArrayList<>();
 
         usernameField = new JTextField();
-        usernameField.setBounds(91, 45, 171, 23);
+        usernameField.setBounds(113, 65, 171, 23);
         passwordField = new JPasswordField();
-        passwordField.setBounds(91, 91, 171, 23);
+        passwordField.setBounds(113, 111, 171, 23);
         
         loginButton = new JButton("Login");
         loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-        loginButton.setBounds(20, 125, 87, 35);
-        registerButton = new JButton("Register");
+        loginButton.setBounds(42, 145, 87, 35);
+        registerButton = new JButton("Sign-Up");
         registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-        registerButton.setBounds(137, 125, 114, 35);
+        registerButton.setBounds(159, 145, 114, 35);
         getContentPane().setLayout(null);
 
         JLabel label = new JLabel("Username:");
         label.setFont(new Font("Tahoma", Font.BOLD, 13));
-        label.setBounds(10, 48, 90, 14);
+        label.setBounds(32, 68, 90, 14);
         getContentPane().add(label);
         
         getContentPane().add(usernameField);
@@ -47,28 +58,39 @@ public class LoginFrame extends JFrame implements ActionListener {
          
         JLabel label_1 = new JLabel("Password:");
         label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-        label_1.setBounds(10, 94, 90, 14);
+        label_1.setBounds(32, 114, 90, 14);
         getContentPane().add(label_1);
         getContentPane().add(passwordField);
         
         getContentPane().add(loginButton);
         getContentPane().add(registerButton);
         
-        lblNewLabel = new JLabel("Welcome to Dominic System");
+        lblNewLabel = new JLabel("Welcome to Self Service");
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblNewLabel.setBounds(10, 11, 252, 26);
+        lblNewLabel.setBounds(113, 22, 171, 26);
         getContentPane().add(lblNewLabel);
+        
+        lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(40, 11, 50, 50);
+        ImageIcon img = new ImageIcon(this.getClass().getResource("403392748-221166691025354-292490.png"));
+        lblNewLabel_1.setIcon(img);
+        
+        getContentPane().add(lblNewLabel_1);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           setSize(700, 400);
+           
+            pack();
+            setBounds(500, 400, 330, 240);
+         setLocationRelativeTo(null);
+          setVisible(false);
+         
+        
 
         loginButton.addActionListener(this);
         registerButton.addActionListener(this);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(false);
-        setResizable(false);
-        setBounds(100, 100, 288, 210);
+        
     }
 
     @Override
@@ -144,6 +166,4 @@ public class LoginFrame extends JFrame implements ActionListener {
     public void addRegisteredUser(User newUser) {
         registeredUsers.add(newUser);
     }
-    
-    
 }
