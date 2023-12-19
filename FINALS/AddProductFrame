@@ -26,12 +26,11 @@ class AddProductFrame extends JFrame implements ActionListener {
     
     public AddProductFrame(User registeredUser) {
         super("Add Product");
-        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
-        setResizable(false);
+         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+         setResizable(false);
         this.registeredUser = registeredUser;
         productList = new ArrayList<>();
 
-        // Create components
         productNumberField = new JTextField();
         productNameField = new JTextField();
         descriptionField = new JTextField();
@@ -46,21 +45,17 @@ class AddProductFrame extends JFrame implements ActionListener {
         totalPriceField = new JTextField();
         totalPriceField.setEditable(false);
 
-        // Set layouts
         setLayout(new BorderLayout());
 
-        // Create and add panels
         add(createUserDetailsPanel(), BorderLayout.NORTH);
         add(createProductDetailsPanel(), BorderLayout.CENTER);
         add(createProductListPanel(), BorderLayout.WEST);
         add(createButtonPanel(), BorderLayout.SOUTH);
 
-        // Add action listeners
         addButton.addActionListener(this);
         proceedButton.addActionListener(this);
 
-        // Set frame properties
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -79,7 +74,7 @@ class AddProductFrame extends JFrame implements ActionListener {
     }
 
     private JPanel createProductDetailsPanel() {
-    JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10)); // Increased horizontal and vertical gap
+    JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
     panel.setBorder(BorderFactory.createTitledBorder("Product Details"));
 
     panel.add(createLabel("Product Number:"));
@@ -96,25 +91,24 @@ class AddProductFrame extends JFrame implements ActionListener {
     return panel;
 }
 
-private JPanel createProductListPanel() {
-    JPanel panel = new JPanel(new BorderLayout());
-    panel.setBorder(BorderFactory.createTitledBorder("Product List"));
-
-    productListArea.setPreferredSize(new Dimension(300, 400));
-
-    // Set the vertical scroll policy for the JScrollPane
-    scrollPane = new JScrollPane();
-    scrollPane.setViewportView(productListArea);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-    panel.add(scrollPane, BorderLayout.CENTER);
-
+   private JPanel createProductListPanel() {
+       JPanel panel = new JPanel(new BorderLayout());
+       panel.setBorder(BorderFactory.createTitledBorder("Product List"));
+   
+       productListArea.setPreferredSize(new Dimension(300, 400));
+   
+       scrollPane = new JScrollPane();
+       scrollPane.setViewportView(productListArea);
+       scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+       scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+   
+       panel.add(scrollPane, BorderLayout.CENTER);
+   
     return panel;
 }
 
 private JPanel createButtonPanel() {
-    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Increased horizontal and vertical gap
+    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); 
     addButton = new JButton("Add Product");
     proceedButton = new JButton("Proceed to Buy");
     
@@ -140,7 +134,7 @@ private JPanel createButtonPanel() {
         if (e.getSource() == addButton) {
             try {
                 String productNumber = productNumberField.getText();
-                // Validate if productNumber is an integer
+                
                 if (!validateNumericInput(productNumber)) {
                     JOptionPane.showMessageDialog(this, "Please enter a valid integer for the product number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -175,9 +169,9 @@ private JPanel createButtonPanel() {
                 openBuyProductsFrame();
             }
         } else if ("logout".equals(e.getActionCommand())) {
-        // Handle the Logout button
-        dispose(); // Close the AddProductFrame
-        openLoginFrame(); // Open the LoginFrame
+        
+        dispose(); 
+        openLoginFrame(); 
       }
     }
     
@@ -191,32 +185,32 @@ private JPanel createButtonPanel() {
     }
     
     private void openLoginFrame() {
-    // Check if a LoginFrame instance already exists
+    
     LoginFrame loginFrame = getLoginFrameInstance();
 
     if (loginFrame == null) {
-        // If no instance exists, create a new one
+        
         loginFrame = new LoginFrame();
         loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                // Handle window closing event if needed
+                
             }
         });
     }
 
-    // Set the visibility of the LoginFrame to true
+    
     loginFrame.setLoginFrameVisibility(true);
    }
    
    private LoginFrame getLoginFrameInstance() {
-    // Iterate through all open windows to find an instance of LoginFrame
+    
     for (Window window : Window.getWindows()) {
         if (window instanceof LoginFrame) {
             return (LoginFrame) window;
         }
     }
-    return null; // Return null if no instance is found
+    return null; 
    }
     
     private void openBuyProductsFrame() {
@@ -224,7 +218,7 @@ private JPanel createButtonPanel() {
         buyProductsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                // Handle window closing event if needed
+                
             }
         });
     }
