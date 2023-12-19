@@ -23,16 +23,16 @@ class BuyProductsFrame extends JFrame implements ActionListener {
 
     public BuyProductsFrame(List<Product> productList, AddProductFrame addProductFrame, String userId) {
         super("Buy Products");
-        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
-        setResizable(false);
+         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+         setResizable(false);
         this.productList = productList;
         this.addProductFrame = addProductFrame;
         
-        // Initialize totalPriceField
+        
         totalPriceField = new JTextField();
         totalPriceField.setEditable(false);
 
-        // Create components for selecting products and quantities
+        
         quantitySpinners = new ArrayList<>();
         customerIdField = new JTextField();
         JPanel productPanel = new JPanel(new GridLayout(productList.size(), 2, 10, 5));
@@ -43,7 +43,7 @@ class BuyProductsFrame extends JFrame implements ActionListener {
             productPanel.add(productLabel);
             productPanel.add(quantitySpinner);
 
-            // Set preferred size for the text fields
+            
             quantitySpinners.add(quantitySpinner);
 
             quantitySpinner.addChangeListener(new ChangeListener() {
@@ -54,23 +54,23 @@ class BuyProductsFrame extends JFrame implements ActionListener {
             });
         }
 
-        // Initialize transactionIdField with the random transaction ID
+        
         transactionIdField = new JTextField(generateRandomTransactionId());
-        transactionIdField.setEditable(false); // Make it non-editable
+        transactionIdField.setEditable(false); 
 
-        // Create "Buy" button
+        
         buyButton = new JButton("Buy");
         buyButton.addActionListener(this);
 
-        //// Create "Generate ID" button
+        
         generateIdButton = new JButton("Generate ID");
         generateIdButton.addActionListener(this);
 
-        // Create panels for labels and fields
+        
         JPanel labelsPanel = new JPanel(new GridLayout(4, 1));
         labelsPanel.add(createLabel("Selected Products:"));
         
-        // Create a panel for the Transaction ID components
+        
         JPanel transactionIdPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         transactionIdPanel.add(createLabel("Transaction ID:"));
         transactionIdPanel.add(transactionIdField);
@@ -80,23 +80,23 @@ class BuyProductsFrame extends JFrame implements ActionListener {
         labelsPanel.add(createLabel("Customer ID:"));
         labelsPanel.add(createLabel("Total Price:"));
 
-        JPanel fieldsPanel = new JPanel(new GridLayout(4, 2));  // Adjust the number of columns
+        JPanel fieldsPanel = new JPanel(new GridLayout(4, 2)); 
         fieldsPanel.add(productPanel);
-        fieldsPanel.add(createPanelWithButton(transactionIdField, generateIdButton));  // Place Transaction ID and Generate ID button side by side
+        fieldsPanel.add(createPanelWithButton(transactionIdField, generateIdButton));
         fieldsPanel.add(customerIdField);
         fieldsPanel.add(totalPriceField);
         
-        // Create a JTextArea to display added products
+        
         addedProductsArea = new JTextArea(10, 20);
         addedProductsArea.setEditable(false);
         JScrollPane addedProductsScrollPane = new JScrollPane(addedProductsArea);
 
-        // Create a panel for added products
+        
         JPanel addedProductsPanel = new JPanel(new BorderLayout());
         addedProductsPanel.setBorder(BorderFactory.createTitledBorder("Added Products"));
         addedProductsPanel.add(addedProductsScrollPane, BorderLayout.CENTER);
         
-        // Add components to frame
+        
         add(labelsPanel, BorderLayout.WEST);
         add(fieldsPanel, BorderLayout.CENTER);
         add(buyButton, BorderLayout.SOUTH);
@@ -107,7 +107,7 @@ class BuyProductsFrame extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        updateTotalPrice(); // Calculate and display the initial total price
+        updateTotalPrice(); 
         customerIdField.setText(userId);
         customerIdField.setEditable(false);
     }
@@ -135,7 +135,7 @@ class BuyProductsFrame extends JFrame implements ActionListener {
     // Method to generate a random transaction ID
     private String generateRandomTransactionId() {
         UUID uuid = UUID.randomUUID();
-        String randomTransactionId = uuid.toString().substring(0, 8); // Use the first 8 characters
+        String randomTransactionId = uuid.toString().substring(0, 8); 
         return randomTransactionId;
     }
 
@@ -153,7 +153,6 @@ class BuyProductsFrame extends JFrame implements ActionListener {
         if (e.getSource() == buyButton) {
             completePurchase();
         } else if (e.getSource() == generateIdButton) {
-            // Handle the generation of a new transaction ID
             transactionIdField.setText(generateRandomTransactionId());
         }
     }
@@ -204,8 +203,8 @@ class BuyProductsFrame extends JFrame implements ActionListener {
             if (product.getProductName().equals(productName)) {
                 int currentQuantity = product.getQuantity();
                 if (currentQuantity >= quantity) {
-                    product.setQuantity(currentQuantity - quantity); // Deduct selected quantity
-                    addProductFrame.updateProductListArea(); // Update the AddProductFrame
+                    product.setQuantity(currentQuantity - quantity); 
+                    addProductFrame.updateProductListArea(); 
                     break;
                 } else {
                     JOptionPane.showMessageDialog(this, "Not enough units available for " + productName, "Insufficient Stock", JOptionPane.WARNING_MESSAGE);
