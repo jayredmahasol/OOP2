@@ -40,12 +40,15 @@ class RegisterFrame extends JFrame implements ActionListener {
         passwordField.setBounds(108, 201, 157, 29);
         confirmPasswordField = new JPasswordField();
         confirmPasswordField.setBounds(144, 247, 121, 29);
-        registerButton = new JButton("Sign-Up");
-        registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-        registerButton.setBounds(154, 297, 104, 32);
+        
         signInButton = new JButton("Sign-In");
         signInButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-        signInButton.setBounds(13, 297, 104, 32);
+        signInButton.setBounds(154, 297, 104, 32);
+        
+        registerButton = new JButton("Register");
+        registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        registerButton.setBounds(13, 297, 104, 32);;
+        //(13, 297, 104, 32);
         getContentPane().setLayout(null);
 
         // Add components to frame
@@ -74,8 +77,9 @@ class RegisterFrame extends JFrame implements ActionListener {
         lblConfirmpassword.setBounds(13, 241, 146, 32);
         getContentPane().add(lblConfirmpassword);
         getContentPane().add(confirmPasswordField);
-        getContentPane().add(registerButton);
         getContentPane().add(signInButton);
+        getContentPane().add(registerButton);
+        
         
         label_5 = new JLabel("Registration Form");
         label_5.setFont(new Font("Tahoma", Font.BOLD, 19));
