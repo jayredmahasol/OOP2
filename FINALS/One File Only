@@ -1,0 +1,873 @@
+import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+
+class User {
+    private String id;
+    private String name;
+    private String username;
+    private String password;
+
+    public User(String id, String name, String username, String password) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+
+class Product {
+    private String productNumber;
+    private String productName;
+    private String description;
+    private int quantity;
+    private double price;
+
+    public Product(String productNumber, String productName, String description, int quantity, double price) {
+        this.productNumber = productNumber;
+        this.productName = productName;
+        this.description = description;
+        this.quantity = quantity;
+        this.price = price;
+    }
+    
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getProductNumber() {
+        return productNumber;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    
+    public String toString() {
+        return "Product Number: " + productNumber + "\n" +
+                "Product Name: " + productName + "\n" +
+                "Description: " + description + "\n" +
+                "Quantity: " + quantity + "\n" +
+                "Price: $" + price + "\n";
+    }
+}
+
+class AddProductFrame extends JFrame implements ActionListener {
+    private JTextField productNumberField;
+    private JTextField productNameField;
+    private JTextField descriptionField;
+    private JTextField quantityField;
+    private JTextField priceField;
+    private JButton addButton;
+    private JButton proceedButton;
+    private JTextArea productListArea;
+    private JScrollPane scrollPane;
+    private User registeredUser;
+    private List<Product> productList;
+    private JTextField customerIdField;  
+    private JTextField totalPriceField;
+    
+    public AddProductFrame(User registeredUser) {
+        super("Add Product");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setResizable(false);
+        this.registeredUser = registeredUser;
+        productList = new ArrayList<>();
+
+        // Create components
+        productNumberField = new JTextField();
+        productNameField = new JTextField();
+        descriptionField = new JTextField();
+        quantityField = new JTextField();
+        priceField = new JTextField();
+        addButton = new JButton("Add Product");
+        proceedButton = new JButton("Proceed to Buy");
+        productListArea = new JTextArea(20, 40);
+        productListArea.setEditable(false);
+        scrollPane = new JScrollPane(productListArea);
+        customerIdField = new JTextField();
+        totalPriceField = new JTextField();
+        totalPriceField.setEditable(false);
+
+        // Set layouts
+        setLayout(new BorderLayout());
+
+        // Create and add panels
+        add(createUserDetailsPanel(), BorderLayout.NORTH);
+        add(createProductDetailsPanel(), BorderLayout.CENTER);
+        add(createProductListPanel(), BorderLayout.WEST);
+        add(createButtonPanel(), BorderLayout.SOUTH);
+
+        // Add action listeners
+        addButton.addActionListener(this);
+        proceedButton.addActionListener(this);
+
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private JPanel createUserDetailsPanel() {
+        JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
+        panel.setBorder(BorderFactory.createTitledBorder("User Details"));
+
+        panel.add(createLabel("User ID:"));
+        panel.add(createLabel(registeredUser.getId()));
+        panel.add(createLabel("User Name:"));
+        panel.add(createLabel(registeredUser.getName()));
+
+        return panel;
+    }
+
+    private JPanel createProductDetailsPanel() {
+    JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10)); // Increased horizontal and vertical gap
+    panel.setBorder(BorderFactory.createTitledBorder("Product Details"));
+
+    panel.add(createLabel("Product Number:"));
+    panel.add(productNumberField);
+    panel.add(createLabel("Product Name:"));
+    panel.add(productNameField);
+    panel.add(createLabel("Description:"));
+    panel.add(descriptionField);
+    panel.add(createLabel("Quantity:"));
+    panel.add(quantityField);
+    panel.add(createLabel("Price:"));
+    panel.add(priceField);
+
+    return panel;
+}
+
+private JPanel createProductListPanel() {
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.setBorder(BorderFactory.createTitledBorder("Product List"));
+
+    productListArea.setPreferredSize(new Dimension(300, 400));
+
+    // Set the vertical scroll policy for the JScrollPane
+    scrollPane = new JScrollPane();
+    scrollPane.setViewportView(productListArea);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    panel.add(scrollPane, BorderLayout.CENTER);
+
+    return panel;
+}
+
+private JPanel createButtonPanel() {
+    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Increased horizontal and vertical gap
+    addButton = new JButton("Add Product");
+    proceedButton = new JButton("Proceed to Buy");
+    
+    JButton logoutButton = new JButton("Logout");
+    logoutButton.setActionCommand("logout");
+    logoutButton.addActionListener(this);
+    
+    panel.add(addButton);
+    panel.add(proceedButton);
+    panel.add(logoutButton);
+    
+    return panel;
+}
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        return label;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addButton) {
+            try {
+                String productNumber = productNumberField.getText();
+                // Validate if productNumber is an integer
+                if (!validateNumericInput(productNumber)) {
+                    JOptionPane.showMessageDialog(this, "Please enter a valid integer for the product number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String productName = productNameField.getText();
+                String description = descriptionField.getText();
+                
+                if (productName.isEmpty() || description.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Incomplete Information", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                int quantity = Integer.parseInt(quantityField.getText());
+                double price = Double.parseDouble(priceField.getText());
+                
+                if (quantity < 0 || price < 0) {
+                JOptionPane.showMessageDialog(this, "Quantity and price must be non-negative values.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                return;
+               }
+            
+                Product newProduct = new Product(productNumber, productName, description, quantity, price);
+                productList.add(newProduct);
+
+                updateProductListArea();
+                clearFields();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numeric values for quantity and price.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == proceedButton) {
+            if (productList.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inventory is empty.", "Empty Inventory", JOptionPane.WARNING_MESSAGE);
+            } else {
+                openBuyProductsFrame();
+            }
+        } else if ("logout".equals(e.getActionCommand())) {
+        // Handle the Logout button
+        dispose(); // Close the AddProductFrame
+        openLoginFrame(); // Open the LoginFrame
+      }
+    }
+    
+    private boolean validateNumericInput(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    private void openLoginFrame() {
+    // Check if a LoginFrame instance already exists
+    LoginFrame loginFrame = getLoginFrameInstance();
+
+    if (loginFrame == null) {
+        // If no instance exists, create a new one
+        loginFrame = new LoginFrame();
+        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
+
+    // Set the visibility of the LoginFrame to true
+    loginFrame.setLoginFrameVisibility(true);
+   }
+   
+   private LoginFrame getLoginFrameInstance() {
+    // Iterate through all open windows to find an instance of LoginFrame
+    for (Window window : Window.getWindows()) {
+        if (window instanceof LoginFrame) {
+            return (LoginFrame) window;
+        }
+    }
+    return null; // Return null if no instance is found
+   }
+    
+    private void openBuyProductsFrame() {
+        BuyProductsFrame buyProductsFrame = new BuyProductsFrame(getProductList(), this, getUserId());
+        buyProductsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
+
+    private void clearFields() {
+        productNumberField.setText("");
+        productNameField.setText("");
+        descriptionField.setText("");
+        quantityField.setText("");
+        priceField.setText("");
+    }
+
+    void updateProductListArea() {
+        productListArea.setText("");
+        for (Product product : productList) {
+            productListArea.append(product.toString() + "---------------\n");
+        }
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public double getTotalPrice() {
+        double total = 0;
+        for (Product product : productList) {
+            total += product.getPrice() * product.getQuantity();
+        }
+        return total;
+    }
+
+    public String getUserId() {
+        return registeredUser.getId();
+    }
+}
+
+class BuyProductsFrame extends JFrame implements ActionListener {
+    private List<Product> productList;
+    private AddProductFrame addProductFrame;
+    private List<JSpinner> quantitySpinners;
+    private JTextField transactionIdField;
+    private JTextField totalPriceField;
+    private JButton buyButton;
+    private JTextField customerIdField;
+    private JButton generateIdButton;
+    private JTextArea addedProductsArea;
+
+    public BuyProductsFrame(List<Product> productList, AddProductFrame addProductFrame, String userId) {
+        super("Buy Products");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setResizable(false);
+        this.productList = productList;
+        this.addProductFrame = addProductFrame;
+        
+        // Initialize totalPriceField
+        totalPriceField = new JTextField();
+        totalPriceField.setEditable(false);
+
+        // Create components for selecting products and quantities
+        quantitySpinners = new ArrayList<>();
+        customerIdField = new JTextField();
+        JPanel productPanel = new JPanel(new GridLayout(productList.size(), 2, 10, 5));
+
+        for (Product product : productList) {
+            JLabel productLabel = new JLabel(product.getProductName());
+            JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, product.getQuantity(), 1));
+            productPanel.add(productLabel);
+            productPanel.add(quantitySpinner);
+
+            // Set preferred size for the text fields
+            quantitySpinners.add(quantitySpinner);
+
+            quantitySpinner.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    updateTotalPrice();
+                }
+            });
+        }
+
+        // Initialize transactionIdField with the random transaction ID
+        transactionIdField = new JTextField(generateRandomTransactionId());
+        transactionIdField.setEditable(false); // Make it non-editable
+
+        // Create "Buy" button
+        buyButton = new JButton("Buy");
+        buyButton.addActionListener(this);
+
+        //// Create "Generate ID" button
+        generateIdButton = new JButton("Generate ID");
+        generateIdButton.addActionListener(this);
+
+        // Create panels for labels and fields
+        JPanel labelsPanel = new JPanel(new GridLayout(4, 1));
+        labelsPanel.add(createLabel("Selected Products:"));
+        
+        // Create a panel for the Transaction ID components
+        JPanel transactionIdPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        transactionIdPanel.add(createLabel("Transaction ID:"));
+        transactionIdPanel.add(transactionIdField);
+        transactionIdPanel.add(generateIdButton);
+        labelsPanel.add(transactionIdPanel);
+        
+        labelsPanel.add(createLabel("Customer ID:"));
+        labelsPanel.add(createLabel("Total Price:"));
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(4, 2));  // Adjust the number of columns
+        fieldsPanel.add(productPanel);
+        fieldsPanel.add(createPanelWithButton(transactionIdField, generateIdButton));  // Place Transaction ID and Generate ID button side by side
+        fieldsPanel.add(customerIdField);
+        fieldsPanel.add(totalPriceField);
+        
+        // Create a JTextArea to display added products
+        addedProductsArea = new JTextArea(10, 20);
+        addedProductsArea.setEditable(false);
+        JScrollPane addedProductsScrollPane = new JScrollPane(addedProductsArea);
+
+        // Create a panel for added products
+        JPanel addedProductsPanel = new JPanel(new BorderLayout());
+        addedProductsPanel.setBorder(BorderFactory.createTitledBorder("Added Products"));
+        addedProductsPanel.add(addedProductsScrollPane, BorderLayout.CENTER);
+        
+        // Add components to frame
+        add(labelsPanel, BorderLayout.WEST);
+        add(fieldsPanel, BorderLayout.CENTER);
+        add(buyButton, BorderLayout.SOUTH);
+
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        updateTotalPrice(); // Calculate and display the initial total price
+        customerIdField.setText(userId);
+        customerIdField.setEditable(false);
+    }
+    
+    private void updateAddedProductsArea() {
+        addedProductsArea.setText("");
+        for (Product product : productList) {
+            addedProductsArea.append(product.toString() + "---------------\n");
+        }
+    }
+    
+    private JPanel createPanelWithButton(JTextField textField, JButton button) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.add(textField);
+        panel.add(button);
+        return panel;
+    }
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        return label;
+    }
+
+    // Method to generate a random transaction ID
+    private String generateRandomTransactionId() {
+        UUID uuid = UUID.randomUUID();
+        String randomTransactionId = uuid.toString().substring(0, 8); // Use the first 8 characters
+        return randomTransactionId;
+    }
+
+    private void updateTotalPrice() {
+        double total = 0;
+        for (int i = 0; i < quantitySpinners.size(); i++) {
+            int quantity = (int) quantitySpinners.get(i).getValue();
+            total += productList.get(i).getPrice() * quantity;
+        }
+        totalPriceField.setText(String.format("$%.2f", total));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buyButton) {
+            completePurchase();
+        } else if (e.getSource() == generateIdButton) {
+            // Handle the generation of a new transaction ID
+            transactionIdField.setText(generateRandomTransactionId());
+        }
+    }
+
+    private void completePurchase() {
+        String transactionId = transactionIdField.getText();
+        String customerId = customerIdField.getText();
+
+        // Validate input
+        if (transactionId.isEmpty() || customerId.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter transaction details.", "Incomplete Details", JOptionPane.ERROR_MESSAGE);
+        } else {
+        // Check if at least one product is selected
+        boolean atLeastOneProductSelected = false;
+        for (int i = 0; i < quantitySpinners.size(); i++) {
+            int quantity = (int) quantitySpinners.get(i).getValue();
+            if (quantity > 0) {
+                atLeastOneProductSelected = true;
+                break;
+            }
+        }
+        
+        if (!atLeastOneProductSelected) {
+            JOptionPane.showMessageDialog(this, "Please select at least one product to buy.", "No Product Selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Deduct the quantity from the AddProductFrame for selected products
+        for (int i = 0; i < quantitySpinners.size(); i++) {
+            int quantity = (int) quantitySpinners.get(i).getValue();
+            if (quantity > 0) {
+                deductQuantity(productList.get(i).getProductName(), quantity);
+            }
+        }
+
+            // Process the purchase (you can add your logic here)
+        String purchaseDetails = "Purchase successful!\n";
+        purchaseDetails += "Transaction ID: " + transactionId + "\n";
+        purchaseDetails += "Customer ID: " + customerId + "\n";
+        purchaseDetails += "Total Price: " + totalPriceField.getText() + "\n";
+        JOptionPane.showMessageDialog(this, purchaseDetails, "Purchase Complete", JOptionPane.INFORMATION_MESSAGE);
+        dispose(); // Close the BuyProductsFrame after purchase
+        }
+    }
+
+    private void deductQuantity(String productName, int quantity) {
+        for (Product product : productList) {
+            if (product.getProductName().equals(productName)) {
+                int currentQuantity = product.getQuantity();
+                if (currentQuantity >= quantity) {
+                    product.setQuantity(currentQuantity - quantity); // Deduct selected quantity
+                    addProductFrame.updateProductListArea(); // Update the AddProductFrame
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Not enough units available for " + productName, "Insufficient Stock", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }
+}
+
+
+class RegisterFrame extends JFrame implements ActionListener {
+    private JTextField idField;
+    private JTextField nameField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+    private JButton registerButton;
+    private JButton signInButton;
+    private LoginFrame loginFrame;
+    private List<User> registeredUsers;
+    private User registeredUser;
+    private JLabel label_5;
+    private JLabel lblNewLabel;
+
+    public RegisterFrame(LoginFrame loginFrame) {
+        super("Register");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setResizable(false);
+
+        this.loginFrame = loginFrame;
+
+        // Create components
+        idField = new JTextField();
+        idField.setBounds(108, 75, 157, 29);
+        nameField = new JTextField();
+        nameField.setBounds(108, 118, 157, 29);
+        usernameField = new JTextField();
+        usernameField.setBounds(108, 161, 157, 29);
+        passwordField = new JPasswordField();
+        passwordField.setBounds(108, 201, 157, 29);
+        confirmPasswordField = new JPasswordField();
+        confirmPasswordField.setBounds(144, 247, 121, 29);
+        registerButton = new JButton("Sign-Up");
+        registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        registerButton.setBounds(154, 297, 104, 32);
+        signInButton = new JButton("Sign-In");
+        signInButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        signInButton.setBounds(13, 297, 104, 32);
+        getContentPane().setLayout(null);
+
+        // Add components to frame
+        JLabel label = new JLabel("ID Number:");
+        label.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label.setBounds(13, 67, 90, 43);
+        getContentPane().add(label);
+        getContentPane().add(idField);
+        JLabel label_1 = new JLabel("Name:");
+        label_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_1.setBounds(13, 115, 63, 32);
+        getContentPane().add(label_1);
+        getContentPane().add(nameField);
+        JLabel label_2 = new JLabel("Username:");
+        label_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_2.setBounds(13, 158, 104, 32);
+        getContentPane().add(label_2);
+        getContentPane().add(usernameField);
+        JLabel label_3 = new JLabel("Password:");
+        label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_3.setBounds(13, 198, 90, 32);
+        getContentPane().add(label_3);
+        getContentPane().add(passwordField);
+        JLabel lblConfirmpassword = new JLabel("Confirm Password:");
+        lblConfirmpassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblConfirmpassword.setBounds(13, 241, 146, 32);
+        getContentPane().add(lblConfirmpassword);
+        getContentPane().add(confirmPasswordField);
+        getContentPane().add(registerButton);
+        getContentPane().add(signInButton);
+        
+        label_5 = new JLabel("Registration Form");
+        label_5.setFont(new Font("Tahoma", Font.BOLD, 19));
+        label_5.setBounds(90, 21, 184, 32);
+        getContentPane().add(label_5);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setBounds(26, 16, 50, 50);
+        ImageIcon img = new ImageIcon(this.getClass().getResource("/403392748-221166691025354-292490.png") );
+        lblNewLabel.setIcon(img);
+        getContentPane().add(lblNewLabel);
+
+        // Add action listeners
+        registerButton.addActionListener(this);
+        signInButton.addActionListener(this);
+
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(300, 380);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        registeredUsers = new ArrayList<>();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String id = idField.getText();
+        String name = nameField.getText();
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        if (e.getSource() == registerButton) {
+        // Validate input for numeric fields
+        if (!validateNumericInput(id)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid numeric ID.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (validateInput(id, name, username, password, confirmPassword)) {
+            if (registerUser(id, name, username, password)) {
+                registeredUser = new User(id, name, username, password);
+                loginFrame.addRegisteredUser(registeredUser);
+                JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
+                dispose();
+                loginFrame.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid input. Please fill in all the fields.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        }
+    } else if (e.getSource() == signInButton) {
+        dispose();
+        loginFrame.setVisible(true);
+    }
+   }
+    private boolean validateNumericInput(String id) {
+    try {
+        Integer.parseInt(id);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+   }
+    
+    
+   
+   // Method for comfirmation. IsEmpty
+    private boolean validateInput(String id, String name, String username, String password, String confirmPassword) {
+        return !id.isEmpty() && !name.isEmpty() && !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
+    }
+   // Method for validation of Password
+    private boolean registerUser(String id, String name, String username, String password) {
+        if (!password.equals(confirmPasswordField.getText())) {
+            JOptionPane.showMessageDialog(this, "Passwords do not match.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+   // Loop process where it will not register if the username was already taken.
+        for(User user : registeredUsers) {
+            if (user.getUsername().equals(username)) {
+                JOptionPane.showMessageDialog(this, "Username already exists.", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        User newUser = new User(id, name, username, password);
+        registeredUsers.add(newUser);
+        return true;
+    }
+    
+    
+}
+
+public class LoginFrame extends JFrame implements ActionListener {
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JButton registerButton;
+    private List<User> registeredUsers;
+    private User loggedInUser;
+    private JLabel lblNewLabel;
+    private JLabel lblNewLabel_1;
+    
+    
+    
+    public LoginFrame() {
+        super("Login System");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\MEGATRON\\Documents\\Java Files\\New folder (3)\\100x100.png"));
+        setAlwaysOnTop(true);
+        
+        setResizable(false);
+        
+        
+        
+        
+        registeredUsers = new ArrayList<>();
+
+        usernameField = new JTextField();
+        usernameField.setBounds(113, 65, 171, 23);
+        passwordField = new JPasswordField();
+        passwordField.setBounds(113, 111, 171, 23);
+        
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        loginButton.setBounds(42, 145, 87, 35);
+        registerButton = new JButton("Sign-Up");
+        registerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+        registerButton.setBounds(159, 145, 114, 35);
+        getContentPane().setLayout(null);
+
+        JLabel label = new JLabel("Username:");
+        label.setFont(new Font("Tahoma", Font.BOLD, 13));
+        label.setBounds(32, 68, 90, 14);
+        getContentPane().add(label);
+        
+        getContentPane().add(usernameField);
+        
+        
+      
+         
+        JLabel label_1 = new JLabel("Password:");
+        label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+        label_1.setBounds(32, 114, 90, 14);
+        getContentPane().add(label_1);
+        getContentPane().add(passwordField);
+        
+        getContentPane().add(loginButton);
+        getContentPane().add(registerButton);
+        
+        lblNewLabel = new JLabel("Welcome to Self Service");
+        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblNewLabel.setBounds(113, 22, 171, 26);
+        getContentPane().add(lblNewLabel);
+        
+        lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(40, 11, 50, 50);
+        ImageIcon img = new ImageIcon(this.getClass().getResource("403392748-221166691025354-292490.png"));
+        lblNewLabel_1.setIcon(img);
+        
+        getContentPane().add(lblNewLabel_1);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           setSize(700, 400);
+           
+            pack();
+            setBounds(500, 400, 330, 240);
+         setLocationRelativeTo(null);
+          setVisible(false);
+         
+        
+
+        loginButton.addActionListener(this);
+        registerButton.addActionListener(this);
+
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+
+        if (e.getSource() == loginButton) {
+            if (loginUser(username, password)) {
+                loggedInUser = getRegisteredUserByUsername(username);
+                JOptionPane.showMessageDialog(this, "Login successful. Welcome, " + username + "!");
+                openAddProductFrame();
+                setLoginFrameVisibility(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Login failed. Incorrect username or password.", "Login Unsuccessful", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == registerButton) {
+            openRegisterFrame();
+            setLoginFrameVisibility(false);
+        }
+    }
+    
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoginFrameVisibility(boolean visible) {
+        setVisible(visible);
+    }
+
+    private void openAddProductFrame() {
+        AddProductFrame addProductFrame = new AddProductFrame(getLoggedInUser());
+        addProductFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                List<Product> productList = addProductFrame.getProductList();
+                for (Product product : productList) {
+                    System.out.println(product.toString() + "---------------");
+                }
+                System.exit(0);
+            }
+        });
+    }
+    
+    private User getRegisteredUserByUsername(String username) {
+        for (User user : registeredUsers) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null; // Return null if the user is not found
+    }
+
+    private boolean loginUser(String username, String password) {
+        for (User user : registeredUsers) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void openRegisterFrame() {
+        RegisterFrame registerFrame = new RegisterFrame(this);
+        registerFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Handle window closing event if needed
+            }
+        });
+    }
+
+    public void addRegisteredUser(User newUser) {
+        registeredUsers.add(newUser);
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            LoginFrame loginFrame = new LoginFrame();
+            loginFrame.setVisible(true);
+        });
+    }
+}    
+    
+
