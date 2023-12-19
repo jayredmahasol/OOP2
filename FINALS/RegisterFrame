@@ -93,7 +93,7 @@ class RegisterFrame extends JFrame implements ActionListener {
         signInButton.addActionListener(this);
 
         // Set frame properties
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 380);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -107,8 +107,15 @@ class RegisterFrame extends JFrame implements ActionListener {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-
-        if (e.getSource() == registerButton) {
+      
+      if (e.getSource() == registerButton) {
+        // Validate input for numeric fields
+        if (!validateNumericInput(id)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid numeric ID.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+      
+         
             if (validateInput(id, name, username, password, confirmPassword)) {
                 if (registerUser(id, name, username, password)) {
                     registeredUser = new User(id, name, username, password);
@@ -125,11 +132,24 @@ class RegisterFrame extends JFrame implements ActionListener {
             loginFrame.setVisible(true);
         }
     }
+    
+    
 
    // Method for comfirmation. IsEmpty
     private boolean validateInput(String id, String name, String username, String password, String confirmPassword) {
         return !id.isEmpty() && !name.isEmpty() && !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
     }
+    
+    // Method for comfirmation. If the user input numeric value in ID NUM form area
+    private boolean validateNumericInput(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
    // Method for validation of Password
     private boolean registerUser(String id, String name, String username, String password) {
         if (!password.equals(confirmPasswordField.getText())) {
