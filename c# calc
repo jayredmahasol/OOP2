@@ -1,0 +1,59 @@
+using System;
+
+public class HelloWorld {
+    public static void Main(string[] args) {
+        int num1, num2, total;
+        while (true) {
+            Console.WriteLine("\nCalculator Operations:");
+            Console.WriteLine("1. Addition");
+            Console.WriteLine("2. Subtraction");
+            Console.WriteLine("3. Multiplication");
+            Console.WriteLine("4. Division");
+            Console.WriteLine("0. Exit");
+            Console.Write("Enter your choice: ");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice) {
+                case 1:
+                    Console.WriteLine("Input a number: ");
+                    num1 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Input a number: ");
+                    num2 = Convert.ToInt32(Console.ReadLine());
+                    total = num1 + num2;
+                    Console.WriteLine("Result: " + total);
+                    break;
+                case 2:
+                    Console.WriteLine("Input a number: ");
+                    num1 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Input a number: ");
+                    num2 = Convert.ToInt32(Console.ReadLine());
+                    total = num1 - num2;
+                    Console.WriteLine("Result: " + total);
+                    break;
+                case 3:
+                    Console.WriteLine("Input a number: ");
+                    num1 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Input a number: ");
+                    num2 = Convert.ToInt32(Console.ReadLine());
+                    total = num1 * num2;
+                    Console.WriteLine("Result: " + total);
+                    break;
+                case 4:
+                    Console.WriteLine("Input a number: ");
+                    num1 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Input a number: ");
+                    num2 = Convert.ToInt32(Console.ReadLine());
+                    total = num1 / num2;
+                    Console.WriteLine("Result: " + total);
+                    break;
+                case 0:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a valid option.");
+                    break;
+            }
+        }
+    }
+}
+
+
