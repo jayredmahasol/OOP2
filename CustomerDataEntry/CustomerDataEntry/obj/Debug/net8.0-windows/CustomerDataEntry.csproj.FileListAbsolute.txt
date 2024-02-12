@@ -1,0 +1,17 @@
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\bin\Debug\net8.0-windows\CustomerDataEntry.exe
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\bin\Debug\net8.0-windows\CustomerDataEntry.deps.json
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\bin\Debug\net8.0-windows\CustomerDataEntry.runtimeconfig.json
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\bin\Debug\net8.0-windows\CustomerDataEntry.dll
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\bin\Debug\net8.0-windows\CustomerDataEntry.pdb
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.Form1.resources
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.csproj.GenerateResource.cache
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.AssemblyInfoInputs.cache
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.AssemblyInfo.cs
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.csproj.CoreCompileInputs.cache
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.dll
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\refint\CustomerDataEntry.dll
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.pdb
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.genruntimeconfig.cache
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\ref\CustomerDataEntry.dll
+C:\Users\Dave\source\repos\CustomerDataEntry\CustomerDataEntry\obj\Debug\net8.0-windows\CustomerDataEntry.PreviewCustomer.resources
