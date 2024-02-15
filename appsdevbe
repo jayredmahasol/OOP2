@@ -1,0 +1,179 @@
+namespace grading
+{
+    public partial class Form1 : Form
+    {
+        double firstGrade;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            //Message.Show()
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double semester = 4;
+
+                firstGrade = double.Parse(firstGradeValue.Text);
+                if (firstGrade <= 60 || firstGrade >= 100)
+                {
+                    MessageBox.Show("First Quarter grade must not below 60 and above 100");
+                }
+                double secondGrade = double.Parse(secondGradeValue.Text);
+                if (secondGrade <= 60 || secondGrade >= 100)
+                {
+                    MessageBox.Show("Second Quarter grade must not below 60 and above 100");
+                }
+                double thirdGrade = double.Parse(thirdGradeValue.Text);
+                if (thirdGrade <= 60 || thirdGrade >= 100)
+                {
+                    MessageBox.Show("Third Quarter grade must not below 60 and above 100");
+                }
+                double fourthGrade = double.Parse(fourthGradeValue.Text);
+                if (fourthGrade <= 60 || fourthGrade >= 100)
+                {
+                    MessageBox.Show("Fourth Quarter grade must not below 60 and above 100");
+                }
+
+
+                double gradeSum = firstGrade + secondGrade + thirdGrade + fourthGrade;
+                double gradeAverage = gradeSum / semester;
+
+                Form2 gradeSummaryForm = new Form2(gradeAverage);
+                gradeSummaryForm.Show();
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Input invalid");
+
+            }
+        }
+
+        private void firstGradeValue_TextChanged(object sender, EventArgs e)
+        {
+            firstGradeRemarks.Text = "";
+
+            // Check if textBox1.Text is a valid number
+            if (double.TryParse(firstGradeValue.Text, out double textBox1Value))
+            {
+                // Compare the parsed value with 75
+                if (textBox1Value <= 74)
+                {
+                    firstGradeRemarks.Text = "Failed";
+                }
+                else
+                {
+                    firstGradeRemarks.Text = "Passed";
+                }
+            }
+            else
+            {
+                // Handle invalid input
+                firstGradeRemarks.Text = "Invalid input";
+
+            }
+        }
+        private void firstGradeRemarks_Click(object sender, EventArgs e)
+        {
+            //
+        }
+
+
+
+        private void secondGradeRemarks_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void secondGradeValue_TextChanged(object sender, EventArgs e)
+        {
+            secondGradeRemarks.Text = "";
+
+            // Check if textBox1.Text is a valid number
+            if (double.TryParse(secondGradeValue.Text, out double textBox1Value))
+            {
+                // Compare the parsed value with 75
+                if (textBox1Value <= 74)
+                {
+                    secondGradeRemarks.Text = "Failed";
+                }
+                else
+                {
+                    secondGradeRemarks.Text = "Passed";
+                }
+            }
+            else
+            {
+                // Handle invalid input
+                secondGradeRemarks.Text = "Invalid input";
+
+            }
+        }
+
+        private void thirdGradeRemarks_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void thirdGradeValue_TextChanged(object sender, EventArgs e)
+        {
+            thirdGradeRemarks.Text = "";
+
+            // Check if textBox1.Text is a valid number
+            if (double.TryParse(thirdGradeValue.Text, out double textBox1Value))
+            {
+                // Compare the parsed value with 75
+                if (textBox1Value <= 74)
+                {
+                    thirdGradeRemarks.Text = "Failed";
+                }
+                else
+                {
+                    thirdGradeRemarks.Text = "Passed";
+                }
+            }
+            else
+            {
+                // Handle invalid input
+                thirdGradeRemarks.Text = "Invalid input";
+
+            }
+        }
+
+        private void fourthGradeValue_TextChanged(object sender, EventArgs e)
+        {
+            fourthGradeRemarks.Text = "";
+
+            // Check if textBox1.Text is a valid number
+            if (double.TryParse(thirdGradeValue.Text, out double textBox1Value))
+            {
+                // Compare the parsed value with 75
+                if (textBox1Value <= 74)
+                {
+                    fourthGradeRemarks.Text = "Failed";
+                }
+                else
+                {
+                    fourthGradeRemarks.Text = "Passed";
+                }
+            }
+            else
+            {
+                // Handle invalid input
+                fourthGradeRemarks.Text = "Invalid input";
+
+            }
+        }
+
+        private void fourthGradeRemarks_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
