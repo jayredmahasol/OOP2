@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=PT+Serif+Caption&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Karma:wght@500&family=PT+Serif+Caption&display=swap');
+
+
+.header{
+    
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:1.5rem 3%;
+    border-bottom: var(--border);
+    position: fixed;
+     
+}
+
+.header .logo img{
+    height: 8rem;
+    width: 10rem;
+    
+}
+ 
+*{
+  margin: 11;
+  padding: 0;
+}
+
+.title-word {
+    animation: color-animation 4s linear infinite;
+}
+  
+.title-word-1 {
+    --color-1: #DF8453;
+    --color-2: #3D8DAE;
+    --color-3: #E4A9A8;
+}
+  
+.title-word-2 {
+    --color-1: #DBAD4A;
+    --color-2: #ACCFCB;
+    --color-3: #17494D;
+}
+  
+.title-word-3 {
+    --color-1: #ACCFCB;
+    --color-2: #E4A9A8;
+    --color-3: #ACCFCB;
+}
+  
+  .title-word-4 {
+    --color-1: #3D8DAE;
+    --color-2: #DF8453;
+    --color-3: #E4A9A8;
+}
+@keyframes color-animation {
+    0%    {color: var(--color-1)}
+    32%   {color: var(--color-1)}
+    33%   {color: var(--color-2)}
+    65%   {color: var(--color-2)}
+    66%   {color: var(--color-3)}
+    99%   {color: var(--color-3)}
+    100%  {color: var(--color-1)}
+}
+  
+.container {
+    display: grid;
+    place-items: center;  
+    text-align: center;
+    height: 15vh
+}
+
+.title {
+    font-family: 'PT Serif Caption', serif;
+    font-weight: 850;
+    font-size: 2vw;
+    text-transform: uppercase;
+}
+
+h4, h2, .price{
+    text-align: center;
+    padding: 2px;
+    font-family: 'PT Serif Caption', serif;
+    font-size: medium;
+    
+}
+body {
+    background:url(../images/bg.jpg) no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+h2{
+    color: #f0f0f0;
+    font-family: 'PT Serif Caption', serif;
+    font-size: 3.0vw;
+    text-align: center;
+    background-color: rgba(139, 128, 128, 0.5);
+    padding: 5px;
+    width: 700;
+    border-radius: 15px;
+    text-shadow: -3px -3px 0 #010103;
+   
+}
+h3{
+  font-family: 'PT Serif Caption', serif;
+}
+
+img{
+    width: 200;
+    height: 200px;
+    border: 2px solid rgb(155, 46, 46);
+    border-radius: 10%;   
+}
+input{
+    border-radius: 5px;
+    padding: 5px;
+    
+}
+
+div.order{
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 55%;
+    height: 800%;
+    
+    
+}
+table, td{
+  text-align: left;
+  border: 1px solid black;
+  border-collapse: collapse;
+  height: 20px;
+  background-color: #fff;
+  
+}
+th{
+  text-align: center;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td#infos{
+  text-align: left;
+}
+#invalidQuantity{
+  color: red;
+}
